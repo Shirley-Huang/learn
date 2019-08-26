@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+<!--    加载配置文件，无spring容器扫描配置文件，需进行此配置，否则无法读取配置文件-->
+    <properties resource="dataSource.properties"/>
+
+    <settings>
+        <!--  全局的开启或关闭配置文件中的所有映射器已经配置的任何缓存，默认true      -->
+        <setting name="cacheEnabled" value="true" />
+        <!--  延迟加载的全局开关，当开启时，所有关联对象都会延迟加载，特定关联关系中可通过设置fetchType属性来覆盖该项的开关状态，默认false      -->
+        <setting name="lazyLoadingEnabled" value="true" />
+    </settings>
+
+    <typeAliases>
+        <typeAlias alias="User" type="com.dandan.model.pojo.User"/>
+    </typeAliases>
+
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${driver}"/>
+                <property name="url" value="${url}"/>
+                <property name="username" value="${username}"/>
+                <property name="password" value="${password}"/>
+
+<!--                <property name="driver" value="com.mysql.jdbc.Driver"/>-->
+<!--                <property name="url" value="jdbc:mysql://127.0.0.1:3306/dandan_01"/>-->
+<!--                <property name="username" value="root"/>-->
+<!--                <property name="password" value="p@swrd123"/>-->
+            </dataSource>
+        </environment>
+    </environments>
+
+    <mappers>
+        <mapper resource="mybatis/mapper/UserMapper.xml"/>
+<!--        <package name="mybatis/mapper"/>-->
+    </mappers>
+
+
+
+
+</configuration>

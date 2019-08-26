@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dandan.mapper.UserMapper">
+
+    <sql id="orderingProperties">
+
+    </sql>
+
+    <sql id="pagingLimit">
+
+    </sql>
+
+    <sql id="userColumn">
+        u.id AS user_id,
+        u.user_name AS user_user_name,
+        u.password AS user_password,
+        u.mobile AS user_mobile,
+        u.age AS user_age,
+        u.sex AS user_sex
+    </sql>
+
+    <sql id="userFilter">
+        <if test="filter != null">
+            <if test="filter.keyword != null">
+                (u.user_name LIKE #{filter.keyword, javaType=string, jdbcType=CHAR}
+                OR u.mobile LIKE #{filter.keyword, javaType=string, jdbcType=CHAR})
+            </if>
+            <if test="filter.sex != null">
+                AND u.sex = #{filter.sex, javaType=string, jdbcType=CHAR}
+            </if>
+        </if>
+    </sql>
+
+    <resultMap id="userResult" type="User">
+        <id column="user_id" property="id"/>
+        <result column="user_user_name" property="userName"/>
+        <result column="user_password" property="password"/>
+        <result column="user_mobile" property="mobile"/>
+        <result column="user_age" property="age"/>
+        <result column="user_sex" property="sex"/>
+    </resultMap>
+
+    <select id="selectUserById" resultMap="userResult">
+        select
+        <include refid="userColumn"/>
+        from t_user u
+        where id = #{id, javaType=int, jdbcType=INTEGER}
+    </select>
+
+    <select id="selectAllUsers" resultMap="userResult">
+        select
+        <include refid="userColumn"/>
+        from t_user u
+    </select>
+
+    <select id="selectUserIdsByFilter" resultType="int">
+        select
+        DISTINCT (u.id)
+        from t_user u
+        <where>
+            <include refid="userFilter"/>
+        </where>
+
+        <include refid="orderingProperties"/>
+
+        <include refid="pagingLimit"/>
+    </select>
+
+    <select id="countUsersByFilter" resultType="int">
+        select
+        count (DISTINCT (u.id))
+        from t_user u
+        <where>
+            <include refid="userFilter"/>
+        </where>
+    </select>
+
+</mapper>

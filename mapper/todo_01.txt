@@ -1,0 +1,19 @@
+#第一步、创建数据库，创建表结构，插入默认数据
+create database dandan_01;
+
+use dandan_01;
+create table t_user(
+id int(4) primary key auto_increment,
+user_name char(16),
+password char(11),
+mobile char(11),
+age int(3),
+sex char(1)
+);
+
+insert t_user(user_name,password,mobile,age,sex)
+values('黄丹丹','p@swrd','17600903965',22,'F');
+
+#第二步、添加依赖jar包 pom.xml
+
+#第三步、配置连接核心文件
