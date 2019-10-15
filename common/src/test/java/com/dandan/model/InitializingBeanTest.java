@@ -2,6 +2,7 @@ package com.dandan.model;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.util.ObjectUtils;
 
 /**
  * Created by dandan On 八月 25 2019
@@ -24,8 +25,7 @@ public class InitializingBeanTest {
      */
 
     public static void main(String[] args) {
-        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("spring/beans.xml");
-
+        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("spring/testBeanInit.xml");
 
     }
 

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dandan.mapper.OrderMapper">
+
+    <resultMap id="orderResult" type="Order">
+        <id property="orderId" column="order_id" />
+        <result property="partnerOrderNum" column="order_partner_order_number"/>
+        <result property="statusId" column="order_status_id"/>
+        <result property="merchantId" column="order_merchant_id"/>
+        <result property="merchantName" column="order_merchant_name"/>
+        <result property="artisanName" column="order_artisan_name"/>
+        <result property="artisanMobile" column="order_artisan_mobile"/>
+    </resultMap>
+
+    <sql id="orderCloumn">
+        o.id AS order_id,
+        o.partner_order_number AS order_partner_order_number,
+        o.status_id AS order_status_id,
+        o.merchant_id  AS order_merchant_id,
+        o.merchant_name AS order_merchant_name,
+        o.artisan_name AS order_artisan_name,
+        o.artisan_mobile AS order_artisan_mobile
+    </sql>
+
+   <select id="selectOrderLimit" resultMap="orderResult">
+       select
+       <include refid="orderCloumn"/>
+       from
+       t_order o
+       limit 20
+   </select>
+
+</mapper>

@@ -13,7 +13,7 @@ public class MybatisConfiguration01 {
     public static void main(String[] args) {
         //加载配置文件
         try {
-            String fileName = "mybatis-config.xml";
+            String fileName = "mybatis/mybatis-config.xml";
             //获取类对象、获取类加载器、获取资源文件【getClassLoader（）从当前类所在包开始找，没有则从当前类所在文件下开始找】
             InputStream inputStream = MybatisConfiguration01.class.getClassLoader().getResourceAsStream(fileName);
             //构建会话工厂

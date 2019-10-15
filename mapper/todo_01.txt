@@ -2,6 +2,7 @@
 create database dandan_01;
 
 use dandan_01;
+drop table if exists t_user;
 create table t_user(
 id int(4) primary key auto_increment,
 user_name char(16),
@@ -9,6 +10,27 @@ password char(11),
 mobile char(11),
 age int(3),
 sex char(1)
+);
+DROP TABLE IF EXISTS t_user_address;
+create table t_user_address(
+id int(4) primary key auto_increment,
+province_code char(16),
+province_name char(16),
+city_code char(16),
+city_name char(16),
+district_code char(16),
+district_name char(16),
+detail_address char(128),
+user_id int(4)
+);
+
+drop table if exists t_user_authentication;
+create table t_user_authentication(
+id int(4) primary key auto_increment,
+name char(16),
+id_card char(16) COMMENT '身份证号',
+native_place char(16) comment '籍贯',
+user_id int(4)
 );
 
 insert t_user(user_name,password,mobile,age,sex)

@@ -7,9 +7,14 @@
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context.xsd">
 
+    <context:component-scan base-package="com.dandan.common"/>
+<!--    <context:annotation-config/>-->
+
     <bean id="orderByBuilder"
           class="com.dandan.common.model.filter.OrderByBuilder"
           init-method="init"
     />
+
+
 
 </beans>

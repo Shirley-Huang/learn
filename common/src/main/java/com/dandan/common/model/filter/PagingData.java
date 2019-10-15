@@ -1,13 +1,15 @@
 package com.dandan.common.model.filter;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.stereotype.Component;
 
 /**
  * Created by dandan On 八月 24 2019
  */
-@Getter
 @Setter
+@Getter
+@NoArgsConstructor
+@Component
 public class PagingData {
     public static final int MAX_PAGE_SIZE = 2000;
     private int pageNumber;//数量-页

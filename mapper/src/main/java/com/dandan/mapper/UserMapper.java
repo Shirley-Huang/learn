@@ -11,12 +11,22 @@ import java.util.List;
  */
 public interface UserMapper {
 
-    User selectUserById(@Param("userId") Integer userId);
+    User selectUserById(@Param("id") Integer userId);
 
     List<User> selectAllUsers();
 
     List<Integer> selectUserIdsByFilter(@Param("filter") UserFilter filter);
     
     int countUsersByFilter(@Param("filter") UserFilter filter);
+
+    void insertUser(User user);
+
+    void deleteUserById(@Param("userId") Integer userId);
+
+    void updateUserById(User user);
+
+    List<User> selectUserDefineColumn01();
+
+    List<User> selectUserDefineColumn02();
 
 }

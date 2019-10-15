@@ -4,6 +4,9 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dandan.mapper.UserMapper">
 
+    <!-- 开启本mapper的namespace下的二级缓存 -->
+    <cache/>
+
     <sql id="orderingProperties">
 
     </sql>
@@ -11,6 +14,46 @@
     <sql id="pagingLimit">
 
     </sql>
+
+    <sql id="userAddressColumn">
+        ua.id AS user_address_id,
+        ua.province_code AS user_address_province_code,
+        ua.province_name AS user_address_province_name,
+        ua.city_code AS user_address_city_code,
+        ua.city_name AS user_address_city_name,
+        ua.district_code AS user_address_district_code,
+        ua.district_name AS user_address_district_name,
+        ua.detail_address AS user_address_detail_address,
+        ua.user_id AS user_address_user_id
+    </sql>
+
+    <resultMap id="userAddressResult" type="UserAddress">
+        <id property="id" column="user_address_id"/>
+        <result property="provinceCode" column="user_address_province_code"/>
+        <result property="provinceName" column="user_address_province_name"/>
+        <result property="cityCode" column="user_address_city_code"/>
+        <result property="cityName" column="user_address_city_name"/>
+        <result property="districtCode" column="user_address_district_code"/>
+        <result property="districtName" column="user_address_district_name"/>
+        <result property="detailAddress" column="user_address_detail_address"/>
+        <result property="userId" column="user_address_user_id"/>
+    </resultMap>
+
+    <sql id="userAuthenticationColumn">
+        uau.id AS user_authentication_id,
+        uau.name AS user_authentication_name,
+        uau.id_card AS user_authentication_id_card,
+        uau.native_place AS user_authentication_native_place,
+        uau.user_id AS user_authentication_user_id
+    </sql>
+
+    <resultMap id="userAuthenticationResult" type="UserAuthentication">
+        <id property="id" column="user_authentication_id"/>
+        <result property="name" column="user_authentication_name"/>
+        <result property="idCard" column="user_authentication_id_card"/>
+        <result property="nativePlace" column="user_authentication_native_place"/>
+        <result property="userId" column="user_authentication_user_id"/>
+    </resultMap>
 
     <sql id="userColumn">
         u.id AS user_id,
@@ -34,19 +77,34 @@
     </sql>
 
     <resultMap id="userResult" type="User">
+        <!-- 指明哪一列是主键 -->
         <id column="user_id" property="id"/>
+        <!-- 配置映射规则 -->
         <result column="user_user_name" property="userName"/>
         <result column="user_password" property="password"/>
         <result column="user_mobile" property="mobile"/>
         <result column="user_age" property="age"/>
-        <result column="user_sex" property="sex"/>
+        <result column="user_sex" property="sex" javaType="Sex" jdbcType="CHAR"/>
+
+        <!-- 一对一 -->
+        <association property="authentication" javaType="UserAuthentication" resultMap="userAuthenticationResult"/>
+
+        <!-- 一对多 -->
+        <collection property="addresses" ofType="UserAddress" resultMap="userAddressResult"/>
     </resultMap>
+
+
+
 
     <select id="selectUserById" resultMap="userResult">
         select
-        <include refid="userColumn"/>
+        <include refid="userColumn"/>,
+        <include refid="userAddressColumn"/>,
+        <include refid="userAuthenticationColumn"/>
         from t_user u
-        where id = #{id, javaType=int, jdbcType=INTEGER}
+        left join t_user_address ua on u.id = ua.user_id
+        left join t_user_authentication uau on uau.user_id = u.id
+        where u.id = #{id, javaType=int, jdbcType=INTEGER}
     </select>
 
     <select id="selectAllUsers" resultMap="userResult">
@@ -75,6 +133,67 @@
         <where>
             <include refid="userFilter"/>
         </where>
+    </select>
+
+    <insert id="insertUser" parameterType="map" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+        insert into t_user(
+            user_name,
+            password,
+            mobile,
+            age,
+            sex
+        )value (
+            #{userName, javaType=string, jdbcType=CHAR},
+            #{password, javaType=string, jdbcType=CHAR},
+            #{mobile, javaType=string, jdbcType=CHAR},
+            #{age, javaType=int, jdbcType=INTEGER},
+            #{sex.code, javaType=string, jdbcType=CHAR}
+        )
+    </insert>
+
+    <delete id="deleteUserById">
+        delete from t_user
+        where id = #{id, javaType=int, jdbcType=INTEGER}
+    </delete>
+
+    <update id="updateUserById" parameterType="map">
+        update t_user
+        <set>
+            <if test="userName != null">
+                user_name = #{userName},
+            </if>
+            <if test="password != null">
+                password = #{password}
+            </if>
+        </set>
+        where id = #{id, javaType=int, jdbcType=INTEGER}
+    </update>
+
+    <sql id="defineColumn01">
+        user_name,
+        password,
+        mobile
+    </sql>
+
+    <sql id="defineColumn02">
+        id,
+        sex
+    </sql>
+
+    <select id="selectUserDefineColumn01" resultMap="userResult">
+        select
+        <include refid="defineColumn01">
+            <property name="prefix" value="u"/>
+        </include>
+        from t_user u
+    </select>
+
+    <select id="selectUserDefineColumn02" resultMap="userResult">
+        select
+        <include refid="defineColumn02">
+            <property name="prefix" value="u"/>
+        </include>
+        from t_user u
     </select>
 
 </mapper>
