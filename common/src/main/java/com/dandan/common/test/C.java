@@ -21,15 +21,18 @@ public class C implements BeanPostProcessor, InitializingBean {
         System.out.println("C-------code method--------");
     }
 
+    @Override
     public void afterPropertiesSet() throws Exception {
         System.out.println("C--afterPropertiesSet()---------");
     }
 
+    @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
         System.out.println("C--postProcessBeforeInitialization() -------"+beanName);
         return bean;
     }
 
+    @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
         System.out.println("C----postProcessAfterInitialization()--------"+beanName);
         return bean;

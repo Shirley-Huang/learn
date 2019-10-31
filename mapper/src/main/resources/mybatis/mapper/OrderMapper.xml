@@ -12,6 +12,16 @@
         <result property="merchantName" column="order_merchant_name"/>
         <result property="artisanName" column="order_artisan_name"/>
         <result property="artisanMobile" column="order_artisan_mobile"/>
+        <result property="artisanLeaderTypeCode" column="order_artisan_leader_type_code"/>
+        <result property="teamOrder" column="order_is_team_order" jdbcType="CHAR" javaType="Bool"/>
+        <result property="employeeNote" column="order_employee_note"/>
+        <result property="merchantTotalPaymentAmount" column="order_merchant_total_payment_amount"/>
+        <result property="artisanIncomeAmount" column="order_artisan_income_amount"/>
+        <result property="artisanAdditionAmount" column="order_artisan_addition_amount"/>
+        <result property="artisanServiceAmount" column="order_artisan_service_amount"/>
+        <result property="artisanDistancePaymentAmount" column="order_artisan_distance_payment_amount"/>
+        <result property="artisanPraiseAwardAmount" column="order_artisan_praise_award_amount"/>
+        <result property="artisanRecommendAwardAmount" column="order_artisan_recommend_award_amount"/>
     </resultMap>
 
     <sql id="orderCloumn">
@@ -21,15 +31,188 @@
         o.merchant_id  AS order_merchant_id,
         o.merchant_name AS order_merchant_name,
         o.artisan_name AS order_artisan_name,
-        o.artisan_mobile AS order_artisan_mobile
+        o.artisan_mobile AS order_artisan_mobile,
+        o.artisan_leader_type_code AS order_artisan_leader_type_code,
+        o.is_team_order AS order_is_team_order,
+        o.employee_note AS order_employee_note,
+        o.merchant_total_payment_amount AS order_merchant_total_payment_amount,
+        o.artisan_income_amount AS order_artisan_income_amount,
+        o.artisan_addition_amount AS order_artisan_addition_amount,
+        o.artisan_service_amount AS order_artisan_service_amount,
+        o.artisan_distance_payment_amount AS order_artisan_distance_payment_amount,
+        o.artisan_praise_award_amount AS order_artisan_praise_award_amount,
+        o.artisan_recommend_award_amount AS order_artisan_recommend_award_amount
     </sql>
 
-   <select id="selectOrderLimit" resultMap="orderResult">
-       select
-       <include refid="orderCloumn"/>
-       from
-       t_order o
-       limit 20
-   </select>
+    <sql id="orderExtraChargeItemApplyColumn">
+        oecia.id AS order_extra_charge_item_apply_id,
+        oecia.apply_total_price AS order_extra_charge_item_apply_total_price,
+        oecia.apply_status_id AS order_extra_charge_item_apply_status_id
+    </sql>
+
+    <resultMap id="orderExtraChargeItemApplyResult" type="OrderExtraChargeItemApply">
+        <id property="id" column="order_extra_charge_item_apply_id"/>
+        <result property="applyTotalPrice" column="order_extra_charge_item_apply_total_price"/>
+        <result property="applyStatusId" column="order_extra_charge_item_apply_status_id"/>
+    </resultMap>
+
+    <resultMap
+            id="orderStatusContrailResult"
+            type="OrderStatusContrail">
+        <id property="id" column="order_status_contrail_id"/>
+        <result property="statusCode" column="order_status_contrail_status_code"/>
+<!--        <result property="createTime" column="order_status_contrail_create_time"/>-->
+<!--        <result property="statusName" column="order_status_contrail_status_name"/>-->
+<!--        <result property="orderId" column="order_status_contrail_order"/>-->
+    </resultMap>
+
+    <sql id="orderStatusContailColumns">
+		osc.id AS order_status_contrail_id,
+<!--		osc.create_time AS order_status_contrail_create_time,-->
+		osc.status_code AS order_status_contrail_status_code
+<!--		osc.status_name AS order_status_contrail_status_name,-->
+<!--		osc.order_id AS order_status_contrail_order-->
+	</sql>
+
+    <resultMap id="OrderResponsibilityEmployeeContrailResult"
+               type="OrderResponsibilityEmployeeContrail">
+        <id property="id" column="order_responsibility_employee_contrail_id"/>
+        <result property="orderStatusCode" column="order_responsibility_employee_contrail_order_status_code"/>
+<!--        <result property="orderStatusName" column="order_responsibility_employee_contrail_order_status_name"/>-->
+<!--        <result property="orderId" column="order_responsibility_employee_contrail_order_id"/>-->
+        <result property="employeeId" column="order_responsibility_employee_contrail_employee_id"/>
+<!--        <result property="employeeRole" column="order_responsibility_employee_contrail_employee_role"/>-->
+        <result property="employeeName" column="order_responsibility_employee_contrail_employee_name"/>
+<!--        <result property="changeEmployeeNote" column="order_responsibility_employee_contrail_change_employee_note"/>-->
+        <result property="createTime" column="order_responsibility_employee_contrail_create_time"/>
+    </resultMap>
+
+    <sql id="OrderResponsibilityEmployeeContrailColumns">
+		orec.id AS order_responsibility_employee_contrail_id,
+		orec.order_status_code AS order_responsibility_employee_contrail_order_status_code,
+<!--		orec.order_status_name AS order_responsibility_employee_contrail_order_status_name,-->
+<!--		orec.change_employee_note AS order_responsibility_employee_contrail_change_employee_note,-->
+		orec.employee_id AS order_responsibility_employee_contrail_employee_id,
+<!--		orec.employee_role AS order_responsibility_employee_contrail_employee_role,-->
+		orec.employee_name AS order_responsibility_employee_contrail_employee_name,
+		orec.create_time AS order_responsibility_employee_contrail_create_time
+<!--		orec.order_id AS order_responsibility_employee_contrail_order_id-->
+	</sql>
+
+    <resultMap
+            id="orderPropertyResult"
+            type="OrderProperty">
+
+        <id property="id" column="order_property_id"/>
+        <!--        <result property="customerConfirmArtisanServeTime" column="order_property_customer_confirm_serve_time" jdbcType="CHAR" javaType="Bool"/>-->
+        <!--        <result property="customerConfirmServerTimeYes" column="order_property_customer_confirm_server_time_yes" jdbcType="CHAR" javaType="Bool"/>-->
+<!--        <result property="orderId" column="order_property_order_id"/>-->
+<!--        <result property="createTime" column="order_property_create_time"/>-->
+<!--        <result property="updateTime" column="order_property_update_time"/>-->
+<!--        <result property="wxPushCount" column="order_property_wx_push_count"/>-->
+<!--        <result property="missDateTimeoutCount" column="order_property_miss_date_timeout_count"/>-->
+<!--        <result property="appointmentTimeoutCount" column="order_property_appointment_timeout_count"/>-->
+        <result property="notEmployeeProcessDurationSecond" column="order_property_not_employee_process_duration_second"/>
+<!--        <result property="modifyVisitConditionMarkTime" column="order_property_modify_visit_condition_mark_time"/>-->
+        <result property="firstGrabTime" column="order_property_first_grab_time"/>
+<!--        <result property="repairTimeVerifyCode" column="order_property_repair_time_verify_code"/>-->
+
+    </resultMap>
+
+    <sql id="orderPropertyColumn">
+        op.id AS order_property_id,
+<!--        op.is_customer_confirm_serve_time AS order_property_customer_confirm_serve_time,-->
+<!--        op.is_customer_confirm_yes AS order_property_customer_confirm_server_time_yes,-->
+<!--        op.order_id AS order_property_order_id,-->
+<!--        op.create_time AS order_property_create_time,-->
+<!--        op.update_time AS order_property_update_time,-->
+<!--        op.wx_push_count AS order_property_wx_push_count,-->
+<!--        op.miss_date_timeout_count AS order_property_miss_date_timeout_count,-->
+<!--        op.appointment_timeout_count AS order_property_appointment_timeout_count,-->
+        op.not_employee_process_duration_second AS order_property_not_employee_process_duration_second ,
+<!--        op.modify_visit_condition_mark_time AS order_property_modify_visit_condition_mark_time,-->
+<!--        op.repair_time_verify_code AS order_property_repair_time_verify_code,-->
+        op.first_grab_time AS order_property_first_grab_time
+    </sql>
+
+    <resultMap id="orderProductResult" type="OrderProduct">
+        <id property="id" column="order_product_id"/>
+        <result property="name" column="order_product_name"/>
+        <result property="number" column="order_product_number"/>
+        <result property="secondCategoryName" column="order_product_second_category_name"/>
+        <result property="productId" column="order_product_product_id"/>
+        <result property="categoryServingId" column="order_product_category_serving_id"/>
+        <result property="categoryServingName" column="order_product_category_serving_name"/>
+    </resultMap>
+
+    <sql id="orderProductCloumn">
+        op.id AS order_product_id,
+        op.name AS order_product_name,
+        op.number AS order_product_number,
+        op.second_category_name AS order_product_second_category_name,
+        op.product_id AS order_product_product_id,
+        ops.product_category_serving_id AS order_product_category_serving_id,
+        ops.product_category_serving_name AS order_product_category_serving_name
+    </sql>
+    <resultMap id="orderArtisanRewardPunishmentResult" type="OrderArtisanRewardPunishment">
+        <id property="id" column="order_artisan_reward_punishment_id"/>
+        <result property="code" column="order_artisan_reward_punishment_code"/>
+        <result property="name" column="order_artisan_reward_punishment_name"/>
+        <result property="amount" column="order_artisan_reward_punishment_amount"/>
+        <result property="createTime" column="order_artisan_reward_punishment_create_time"/>
+    </resultMap>
+
+    <sql id="orderArtisanRewardPunishmentColumn">
+        oarp.id AS order_artisan_reward_punishment_id,
+        oarp.code AS order_artisan_reward_punishment_code,
+        oarp.name AS order_artisan_reward_punishment_name,
+        oarp.amount AS order_artisan_reward_punishment_amount,
+        oarp.create_time AS order_artisan_reward_punishment_create_time
+    </sql>
+
+    <select id="selectOrderLimit" resultMap="orderResult">
+        select
+        <include refid="orderCloumn"/>
+        from
+        t_order o
+        limit 20
+    </select>
+
+    <select
+            id="selectOrderStatusContrailsByOrderId"
+            parameterType="map"
+            resultMap="orderStatusContrailResult">
+        SELECT
+        <include refid="orderStatusContailColumns"/>
+        FROM
+        t_order_status_contrail osc
+        WHERE
+        osc.order_id = #{orderId, javaType=string, jdbcType=CHAR}
+        ORDER BY
+        osc.id desc
+    </select>
+
+    <select id="selectOrderResponsibilityEmployeeContrailByOrderId"
+            parameterType="map"
+            resultMap="OrderResponsibilityEmployeeContrailResult">
+        SELECT
+        <include refid="OrderResponsibilityEmployeeContrailColumns"/>
+        FROM
+        t_order_responsibility_employee_contrail orec
+        WHERE
+        order_id = #{orderId, javaType=string, jdbcType=INTEGER}
+        ORDER BY
+        orec.id DESC
+    </select>
+
+    <select id="selectOrderPropertyByOrderId" parameterType="map" resultMap="orderPropertyResult">
+        SELECT
+        <include refid="orderPropertyColumn"/>
+        FROM t_order_property
+        WHERE order_id = #{orderId, javaType=string, jdbcType=CHAR}
+    </select>
+
+
+
 
 </mapper>

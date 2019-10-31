@@ -23,15 +23,18 @@ public class A implements BeanPostProcessor, InitializingBean, ApplicationContex
         System.out.println("A-------code method--------");
     }
 
+    @Override
     public void afterPropertiesSet() throws Exception {
         System.out.println("A--afterPropertiesSet()---------");
     }
 
+    @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
         System.out.println("A--postProcessBeforeInitialization() -------"+beanName);
         return bean;
     }
 
+    @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
         System.out.println("A----postProcessAfterInitialization()--------"+beanName);
         return bean;
@@ -41,6 +44,7 @@ public class A implements BeanPostProcessor, InitializingBean, ApplicationContex
         System.out.println("A------init method-------");
     }
 
+    @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
 
         System.out.println("A setApplicationContext()" + applicationContext.getDisplayName());

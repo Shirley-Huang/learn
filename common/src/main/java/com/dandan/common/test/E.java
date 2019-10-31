@@ -22,6 +22,7 @@ public class E implements InitializingBean {
         System.out.println("E------init method-------");
     }
 
+    @Override
     public void afterPropertiesSet() throws Exception {
         System.out.println("E --afterPropertiesSet()------");
     }

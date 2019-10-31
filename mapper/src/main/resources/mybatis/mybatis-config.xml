@@ -5,17 +5,17 @@
 <configuration>
 
 <!--    加载配置文件，无spring容器扫描配置文件，需进行此配置，否则无法读取配置文件-->
-    <properties resource="dataSource.properties"/>
+<!--    <properties resource="dataSource.properties"/>-->
 
     <settings>
         <!--  全局的开启或关闭配置文件中的所有映射器已经配置的任何缓存，默认true  -开启二级缓存的开关     -->
-        <setting name="cacheEnabled" value="true" />
+<!--        <setting name="cacheEnabled" value="true" />-->
         <!--  延迟加载的全局开关，当开启时，所有关联对象都会延迟加载，特定关联关系中可通过设置fetchType属性来覆盖该项的开关状态，默认false      -->
-        <setting name="lazyLoadingEnabled" value="true" />
+<!--        <setting name="lazyLoadingEnabled" value="true" />-->
         <!--   指定日志的具体实现     -->
         <setting name="logImpl" value="STDOUT_LOGGING"/>
         <!--是否开启自动驼峰命名规则映射 -->
-        <setting name="mapUnderscoreToCamelCase" value="true"/>
+<!--        <setting name="mapUnderscoreToCamelCase" value="true"/>-->
     </settings>
 
     <typeAliases>
@@ -23,9 +23,23 @@
         <typeAlias alias="UserAddress" type="com.dandan.model.pojo.UserAddress"/>
         <typeAlias alias="UserAuthentication" type="com.dandan.model.pojo.UserAuthentication"/>
 
-        <typeAlias alias="Order" type="com.dandan.model.pojo.Order"/>
 
         <typeAlias alias="Sex" type="com.dandan.model.typeHandler.SexEnumTypeHandler"/>
+
+        <!--        jiangyun-->
+        <typeAlias type="com.jiangyun.framework.model.Bool" alias="Bool"/>
+        <typeAlias alias="Order" type="com.dandan.model.pojo.jiangyun.Order"/>
+        <typeAlias type="com.dandan.model.pojo.jiangyun.OrderStatusContrail" alias="OrderStatusContrail"/>
+        <typeAlias type="com.dandan.model.pojo.jiangyun.OrderResponsibilityEmployeeContrail" alias="OrderResponsibilityEmployeeContrail"/>
+        <typeAlias type="com.dandan.model.pojo.jiangyun.OrderProperty" alias="OrderProperty"/>
+        <typeAlias type="com.dandan.model.pojo.jiangyun.OrderProduct" alias="OrderProduct"/>
+        <typeAlias type="com.dandan.model.pojo.jiangyun.OrderExtraChargeItemApply" alias="OrderExtraChargeItemApply"/>
+        <typeAlias type="com.dandan.model.pojo.jiangyun.result.OrderArtisanIncome" alias="OrderArtisanIncome"/>
+        <typeAlias type="com.dandan.model.pojo.jiangyun.result.TakeOrderTime" alias="TakeOrderTime"/>
+        <typeAlias type="com.dandan.model.pojo.jiangyun.OrderArtisanRewardPunishment" alias="OrderArtisanRewardPunishment"/>
+
+
+
     </typeAliases>
 
     <typeHandlers>

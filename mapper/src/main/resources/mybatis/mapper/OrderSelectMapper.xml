@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dandan.mapper.OrderSelectMapper">
+
+    <sql id="orderCloumn">
+        <include refid="com.dandan.mapper.OrderMapper.orderCloumn"/>
+    </sql>
+    <sql id="orderStatusContailColumns">
+        <include refid="com.dandan.mapper.OrderMapper.orderStatusContailColumns"/>
+    </sql>
+    <sql id="OrderResponsibilityEmployeeContrailColumns">
+        <include refid="com.dandan.mapper.OrderMapper.OrderResponsibilityEmployeeContrailColumns"/>
+    </sql>
+    <sql id="orderPropertyColumn">
+        <include refid="com.dandan.mapper.OrderMapper.orderPropertyColumn"/>
+    </sql>
+    <sql id="orderProductCloumn">
+        <include refid="com.dandan.mapper.OrderMapper.orderProductCloumn"/>
+    </sql>
+    <sql id="orderArtisanRewardPunishmentColumn">
+        <include refid="com.dandan.mapper.OrderMapper.orderArtisanRewardPunishmentColumn"/>
+    </sql>
+    <sql id="orderExtraChargeItemApplyColumn">
+        <include refid="com.dandan.mapper.OrderMapper.orderExtraChargeItemApplyColumn"/>
+    </sql>
+
+    <resultMap id="orderResult" type="Order" extends="com.dandan.mapper.OrderMapper.orderResult"/>
+    <resultMap id="orderPropertyResult" type="OrderProperty" extends="com.dandan.mapper.OrderMapper.orderPropertyResult"/>
+    <resultMap id="orderStatusContrailResult" type="OrderStatusContrail" extends="com.dandan.mapper.OrderMapper.orderStatusContrailResult"/>
+    <resultMap id="OrderResponsibilityEmployeeContrailResult" type="OrderResponsibilityEmployeeContrail" extends="com.dandan.mapper.OrderMapper.OrderResponsibilityEmployeeContrailResult"/>
+
+    <resultMap id="takeOrderTimeResult" type="TakeOrderTime">
+        <id property="orderId" column="order_id"/>
+        <result property="merchantName" column="order_merchant_name"/>
+
+        <association property="orderProperty" javaType="OrderProperty" resultMap="orderPropertyResult"/>
+<!--        <collection property="statusContrails" ofType="OrderStatusContrail" resultMap="orderStatusContrailResult"/>-->
+        <collection property="employeeContrails" ofType="OrderResponsibilityEmployeeContrail" resultMap="OrderResponsibilityEmployeeContrailResult"/>
+    </resultMap>
+
+    <sql id="takeOrderCloumn">
+        o.id AS order_id,
+        o.merchant_name AS order_merchant_name
+    </sql>
+
+    <select id="selectTakeOrderTimeOrdersByFilter" parameterType="map" resultMap="takeOrderTimeResult" >
+        SELECT
+        <include refid="takeOrderCloumn"/>,
+<!--        <include refid="orderStatusContailColumns"/>,-->
+        <include refid="OrderResponsibilityEmployeeContrailColumns"/>,
+        <include refid="orderPropertyColumn"/>
+        FROM (select order_id from t_order_status_contrail
+                <where>
+                    <if test="filter.oscStatusCode != null">
+                        status_code = #{filter.oscStatusCode,jdbcType=CHAR,javaType=string}
+                    </if>
+                    <if test="filter.oscCreateTime != null">
+                        AND (create_time <![CDATA[ >= ]]> #{filter.oscCreateTime.from, javaType=date, jdbcType=TIMESTAMP}
+                        AND create_time <![CDATA[ < ]]> #{filter.oscCreateTime.to, javaType=date, jdbcType=TIMESTAMP})
+                    </if>
+                </where>
+        ) t1
+        inner join t_order o on o.id = t1.order_id
+<!--        inner join t_order_status_contrail osc on osc.order_id = o.id-->
+        inner join t_order_responsibility_employee_contrail orec on orec.order_id = o.id
+        left join jiangyun_ops.t_order_property op on op.order_id = o.id
+        ORDER BY orec.id
+    </select>
+
+    <select id="selectOrderIdsByFilter" parameterType="map" resultType="java.lang.String">
+        SELECT distinct o.id
+        FROM t_order o
+        inner join t_order_status_contrail osc on osc.order_id = o.id
+        inner join t_order_responsibility_employee_contrail orec on orec.order_id = o.id
+        <where>
+            <if test="filter.oscStatusCode != null">
+                osc.status_code = #{filter.oscStatusCode,jdbcType=CHAR,javaType=string}
+            </if>
+            <if test="filter.oscCreateTime != null">
+                AND (osc.create_time <![CDATA[ >= ]]> #{filter.oscCreateTime.from, javaType=date, jdbcType=TIMESTAMP}
+                AND osc.create_time <![CDATA[ < ]]> #{filter.oscCreateTime.to, javaType=date, jdbcType=TIMESTAMP})
+            </if>
+            <if test="filter.orecStatusCode != null">
+                AND orec.order_status_code = #{filter.orecStatusCode, javaType=string, jdbcType=CHAR}
+            </if>
+            <if test="filter.orecExcludeEmployeeId != null">
+                AND orec.employee_id != #{filter.orecExcludeEmployeeId,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectOrderByOrderId" parameterType="map" resultMap="takeOrderTimeResult">
+        SELECT
+        <include refid="orderCloumn"/>,
+        <include refid="orderStatusContailColumns"/>,
+        <include refid="OrderResponsibilityEmployeeContrailColumns"/>,
+        <include refid="orderPropertyColumn"/>
+        FROM t_order o
+        inner join t_order_status_contrail osc on osc.order_id = o.id
+        inner join t_order_responsibility_employee_contrail orec on orec.order_id = o.id
+        left join jiangyun_ops.t_order_property op on op.order_id = o.id
+        where
+        o.id = #{orderId,jdbcType=VARCHAR}
+    </select>
+
+    <resultMap id="orderProductResult" type="OrderProduct" extends="com.dandan.mapper.OrderMapper.orderProductResult"/>
+    <resultMap id="orderArtisanRewardPunishmentResult" type="OrderArtisanRewardPunishment" extends="com.dandan.mapper.OrderMapper.orderArtisanRewardPunishmentResult"/>
+    <resultMap id="orderExtraChargeItemApplyResult" type="OrderExtraChargeItemApply" extends="com.dandan.mapper.OrderMapper.orderExtraChargeItemApplyResult"/>
+
+    <resultMap id="orderArtisanIncomeResult" type="OrderArtisanIncome">
+        <id property="orderId" column="order_id"/>
+        <association property="order" javaType="Order" resultMap="orderResult"/>
+        <collection property="orderProducts" ofType="OrderProduct" resultMap="orderProductResult"/>
+        <collection property="rewardPunishments" ofType="OrderArtisanRewardPunishment" resultMap="orderArtisanRewardPunishmentResult"/>
+        <collection property="extraChargeApply" ofType="OrderExtraChargeItemApply" resultMap="orderExtraChargeItemApplyResult"/>
+    </resultMap>
+
+    <select id="selectOrderArtisanIncomeByFilter" parameterType="map" resultMap="orderArtisanIncomeResult">
+        SELECT
+            <include refid="orderCloumn"/>,
+            <include refid="orderProductCloumn"/>,
+            <include refid="orderArtisanRewardPunishmentColumn"/>,
+            <include refid="orderExtraChargeItemApplyColumn"/>
+        FROM t_order_history o
+        INNER JOIN t_order_product_history op on o.id = op.order_history_id
+        INNER JOIN t_order_product_serving_history ops on ops.order_product_history_id = op.id
+        LEFT JOIN t_order_artisan_reward_punishment_history oarp on oarp.order_history_id = o.id
+        LEFT JOIN t_order_extra_charge_item_apply_history oecia on oecia.order_id = o.id
+        <where>
+            <if test="filter.statusId != null">
+                o.status_id = #{filter.statusId,jdbcType=INTEGER}
+            </if>
+            <if test="filter.completedTime != null">
+                AND (o.completed_time <![CDATA[ >= ]]> #{filter.completedTime.from, javaType=date, jdbcType=TIMESTAMP}
+                AND o.completed_time <![CDATA[ < ]]> #{filter.completedTime.to, javaType=date, jdbcType=TIMESTAMP})
+            </if>
+            <if test="filter.categoryServingName != null">
+                AND ops.product_category_serving_name = #{filter.categoryServingName, javaType=string, jdbcType=CHAR}
+            </if>
+            <if test="filter.orderId != null">
+                AND o.id = #{filter.orderId,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+</mapper>
