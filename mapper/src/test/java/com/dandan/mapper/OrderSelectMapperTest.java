@@ -287,9 +287,11 @@ public class OrderSelectMapperTest extends AbstractPersistenceTest {
             List<OrderProduct> orderProducts = orderArtisanInfo.getOrderProducts();
             String categoryServingName = "安装";
             Integer productNumber = 0;
+            String productName = "";
             for (OrderProduct orderProduct : orderProducts) {
                 categoryServingName = orderProduct.getCategoryServingName();
                 productNumber += orderProduct.getNumber();
+                productName = orderProduct.getName();
             }
 
             List<OrderArtisanRewardPunishment> rewardPunishments = orderArtisanInfo.getRewardPunishments();
@@ -364,6 +366,8 @@ public class OrderSelectMapperTest extends AbstractPersistenceTest {
             data.add(a9.toString());
             data.add(a10.toString());
             data.add(a11.toString());
+            data.add(order.getMerchantName());
+            data.add(productName);
 
             datas.add(data);
         }
