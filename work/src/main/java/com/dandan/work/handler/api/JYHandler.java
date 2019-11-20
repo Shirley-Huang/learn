@@ -1,6 +1,7 @@
 package com.dandan.work.handler.api;
 
 import com.dandan.work.handler.api.acceptance.AcceptanceItems;
+import com.dandan.work.handler.api.bo.CancelOrderBO;
 
 import java.util.List;
 
@@ -32,5 +33,8 @@ public interface JYHandler {
      * @throws Exception
      */
     public void completeAcceptance(String orderId, List<AcceptanceItems> acceptanceItems) throws Exception;
+
+
+    public void cancelOrder(CancelOrderBO req) throws Exception;
 
 }

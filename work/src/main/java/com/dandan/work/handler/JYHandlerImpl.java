@@ -8,6 +8,7 @@ import com.dandan.work.handler.api.acceptance.AcceptanceItems;
 import com.dandan.work.handler.api.acceptance.OrderAcceptanceItemsResponse;
 import com.dandan.work.consts.ContentType;
 import com.dandan.work.consts.MethodType;
+import com.dandan.work.handler.api.bo.CancelOrderBO;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -67,7 +68,24 @@ public class JYHandlerImpl implements JYHandler {
 
     }
 
-    private String sendRequest(String requestUrl,String contentType,String methodType,Map<String, Object> data) throws Exception{
+    @Override
+    public void cancelOrder(CancelOrderBO req) throws Exception {
+
+        String requestUrl = Parameters.OPS_DOMAIN + Parameters.CANCEL_ORDER_REQUEST_URL;
+        String contentType = ContentType.APPLICATION_JSON_UTF8;
+        String methodType = MethodType.POST;
+        Map<String, Object> data = new HashMap<String, Object>();
+        data.put("orderId", req.getOrderId());
+        data.put("orderCancelDemander", req.getOrderCancelDemander());
+        data.put("cancelReasonTypeCode", req.getCancelReasonTypeCode());
+        data.put("cancelReasonDescription", req.getCancelReasonDescription());
+        data.put("ignoreVerify", req.getIgnoreVerify());
+        data.put("verifyCode", req.getVerifyCode());
+        String result = sendRequest(requestUrl,contentType, methodType, data);
+        System.out.println(req.getOrderId() + "——" + result);
+    }
+
+    private String sendRequest(String requestUrl, String contentType, String methodType, Map<String, Object> data) throws Exception{
         Map<String, String> headers = new HashMap<String, String>();
         headers.put("Cookie", Parameters.COOKIE);
         headers.put("Content-Type", contentType);
