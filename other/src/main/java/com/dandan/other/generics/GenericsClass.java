@@ -38,6 +38,22 @@ public class GenericsClass<T> {
         petHouse3.add(cat);
     }
 
+    public void test01(String a){
+
+    }
+
+    public void test01(Integer i){
+
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
+
+    //    public String test01(String a){     error 仅返回值不同非重载方法
+//    }
+
 }
 class Pet{
 

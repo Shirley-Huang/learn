@@ -248,8 +248,8 @@ public class OrderSelectMapperTest extends AbstractPersistenceTest {
     @Test
     public void selectOrderArtisanIncomeInfo() throws Exception{
 
-        String fromStr = "2019-10-01";
-        String toStr = "2019-11-01";
+        String fromStr = "2019-11-01";
+        String toStr = "2019-12-01";
         Date from = DateTimeUtility.parseYYYYMMDD(fromStr);
         Date to = DateTimeUtility.parseYYYYMMDD(toStr);
         TimeRange timeRange = new TimeRange(from, to);
@@ -372,7 +372,7 @@ public class OrderSelectMapperTest extends AbstractPersistenceTest {
             datas.add(data);
         }
 //        String fileName = "/Users/dandan/Documents/import_files/九月份师傅收入详情.xlsx";
-        String fileName = "/Users/dandan/Documents/import_files/十月份师傅收入详情.xlsx";
+        String fileName = "/Users/dandan/Documents/import_files/十一月份师傅收入详情.xlsx";
         ExportFileUtils.writeExcel(datas,fileName, OrderArtisanIncomeAmountModel.class);
     }
 
