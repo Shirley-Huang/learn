@@ -118,9 +118,9 @@ public class JYServiceCall {
             req.setOrderCancelDemander("MERCHANT");
             req.setCancelReasonTypeCode("CUSTOMER_NOT_INSTALL_TEMPORARILY");
             req.setCancelReasonDescription("客户暂不安装");
-            req.setVerifyCode(list.get(4));
+            req.setVerifyCode(list.get(1));
+            System.out.println(list.get(0) + "--" + list.get(1));
             jyHandlerImpl.cancelOrder(req);
-//            System.out.println(list.get(0) + "--" + list.get(4));
 //            break;
         }
         System.out.println(lists.size());

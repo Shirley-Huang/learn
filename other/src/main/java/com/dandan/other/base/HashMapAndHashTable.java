@@ -1,9 +1,7 @@
 package com.dandan.other.base;
 
 
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @Description
@@ -21,6 +19,9 @@ public class HashMapAndHashTable{
         Hashtable table = new Hashtable();
         table.put(null,"null");
         System.out.println(table.get(null));
+
+        //HashMap可以实现同步
+        Map map = Collections.synchronizedMap(new HashMap<String,String>());
 
 
     }
