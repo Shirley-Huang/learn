@@ -5,6 +5,8 @@ import com.dandan.work.handler.JYHandlerImpl;
 import com.dandan.work.handler.api.JYHandler;
 import com.dandan.work.handler.api.acceptance.AcceptanceItems;
 import com.dandan.work.handler.api.bo.CancelOrderBO;
+import com.dandan.work.handler.api.bo.ModifyProblemBO;
+import com.dandan.work.handler.api.problem.Problem;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -119,12 +121,57 @@ public class JYServiceCall {
             req.setCancelReasonTypeCode("CUSTOMER_NOT_INSTALL_TEMPORARILY");
             req.setCancelReasonDescription("客户暂不安装");
             req.setVerifyCode(list.get(1));
-            System.out.println(list.get(0) + "--" + list.get(1));
             jyHandlerImpl.cancelOrder(req);
 //            break;
         }
         System.out.println(lists.size());
 
+    }
+
+    /**
+     * 批量将当前问题修改为已完结
+     */
+    @Test
+    public void modifyProblme() throws Exception{
+
+        //查询问题id
+        List<String> problemIds = ImportFileUtils.readText("/Users/dandan/Documents/import_files/problemIds.txt");
+        //遍历
+        for (String problemId : problemIds) {
+            //获取问题的信息
+            Problem problem = jyHandlerImpl.searchProblem(problemId);
+            if(problem == null){
+                System.out.println("问题查询结果为空");
+                continue;
+            }
+            //将问题完结
+            ModifyProblemBO req = fillModifyProblemInfo(problem);
+            jyHandlerImpl.modifyProblem(req);
+
+        }
+
+
+
+
+    }
+
+    private ModifyProblemBO fillModifyProblemInfo(Problem problem) {
+        ModifyProblemBO bo = new ModifyProblemBO();
+        bo.setId(problem.getId());
+        bo.setTomorrowDeal(problem.getTomorrowDeal());
+        bo.setProblemStatusId(3);
+        bo.setProblemCategoryId(problem.getProblemCategoryId());
+        bo.setProblemFirstCategoryId(problem.getProblemFirstCategoryId());
+        bo.setProblemFirstCategoryName(problem.getProblemFirstCategoryName());
+        bo.setProblemSecondCategoryId(problem.getProblemSecondCategoryId());
+        bo.setProblemSecondCategoryName(problem.getProblemSecondCategoryName());
+        bo.setComplaintRisk(problem.getComplaintRisk());
+        bo.setSignCount(problem.getSignCount());
+        bo.setComplaintsOrder(problem.getComplaintsOrder());
+        bo.setCustomerReminder(problem.getCustomerReminder());
+        bo.setComplaintChannel(problem.getComplaintChannel());
+        bo.setNotePictures(problem.getNotePictures());
+        return bo;
     }
 
 }

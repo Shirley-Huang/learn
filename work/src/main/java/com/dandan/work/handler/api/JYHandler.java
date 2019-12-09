@@ -2,6 +2,8 @@ package com.dandan.work.handler.api;
 
 import com.dandan.work.handler.api.acceptance.AcceptanceItems;
 import com.dandan.work.handler.api.bo.CancelOrderBO;
+import com.dandan.work.handler.api.bo.ModifyProblemBO;
+import com.dandan.work.handler.api.problem.Problem;
 
 import java.util.List;
 
@@ -23,7 +25,7 @@ public interface JYHandler {
      * @return
      * @throws Exception
      */
-    public List<AcceptanceItems> getAcceptanceItems(String orderId) throws Exception;
+    List<AcceptanceItems> getAcceptanceItems(String orderId) throws Exception;
 
 
     /**
@@ -36,5 +38,9 @@ public interface JYHandler {
 
 
     public void cancelOrder(CancelOrderBO req) throws Exception;
+
+    Problem searchProblem(String problemId) throws Exception;
+
+    void modifyProblem(ModifyProblemBO req) throws Exception;
 
 }

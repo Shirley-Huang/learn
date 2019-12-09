@@ -9,6 +9,9 @@ import com.dandan.work.handler.api.acceptance.OrderAcceptanceItemsResponse;
 import com.dandan.work.consts.ContentType;
 import com.dandan.work.consts.MethodType;
 import com.dandan.work.handler.api.bo.CancelOrderBO;
+import com.dandan.work.handler.api.bo.ModifyProblemBO;
+import com.dandan.work.handler.api.problem.Problem;
+import com.dandan.work.handler.api.problem.SearchProblemsResponse;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -91,6 +94,55 @@ public class JYHandlerImpl implements JYHandler {
         headers.put("Content-Type", contentType);
         headers.put("jiangyun-device", "BROWSER");
         return HttpClientUtils02.requestString(requestUrl, headers, data, methodType);
+    }
+
+    @Override
+    public Problem searchProblem(String problemId) throws Exception {
+        String requestUrl = Parameters.OPS_DOMAIN + Parameters.SEARCH_PROBLEM_INFO_REQUEST_URL;
+        String contentType = ContentType.APPLICATION_FORM_URLENCODED_UTF8;
+        String methodType = MethodType.POST;
+
+        Map<String, Object> data = new HashMap<String, Object>();
+        data.put("id",problemId);
+        String result = sendRequest(requestUrl,contentType, methodType, data);
+        //System.out.println(orderId + "——" + result);
+
+        SearchProblemsResponse response = JSON.parseObject(result, SearchProblemsResponse.class);
+        Problem problem = null;
+        if(response.getProblems() != null && response.getProblems().size() > 0){
+            problem = response.getProblems().get(0);
+        }
+        return problem;
+    }
+
+    @Override
+    public void modifyProblem(ModifyProblemBO req) throws Exception {
+        String requestUrl = Parameters.OPS_DOMAIN + Parameters.MODIFY_PROBLEM_REQUEST_URL;
+        String contentType = ContentType.APPLICATION_JSON_UTF8;
+        String methodType = MethodType.POST;
+
+        Map<String, Object> data = new HashMap<String, Object>();
+        data.put("id", req.getId());
+        data.put("problemStatusId", req.getProblemStatusId());
+        data.put("problemCategoryId", req.getProblemCategoryId());
+        data.put("problemFirstCategoryId", req.getProblemFirstCategoryId());
+        data.put("problemFirstCategoryName", req.getProblemFirstCategoryName());
+        data.put("problemSecondCategoryId", req.getProblemSecondCategoryId());
+        data.put("problemSecondCategoryName", req.getProblemSecondCategoryName());
+        data.put("tomorrowDeal", req.getTomorrowDeal());
+        data.put("complaintRisk", req.getComplaintRisk());
+        data.put("complaintsOrder", req.getComplaintsOrder());
+        data.put("customerReminder", req.getCustomerReminder());
+        data.put("signCount", req.getSignCount());
+        data.put("complaintChannel", req.getComplaintChannel());
+        data.put("notePictures", req.getNotePictures());
+
+
+
+
+        String result = sendRequest(requestUrl,contentType, methodType, data);
+        System.out.println(req.getId() + "——" + result);
+
     }
 
 }
