@@ -11,11 +11,13 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by dandan On 八月 25 2019
  */
-public class UserMapperTest extends AbstractPersistenceTest{
+public class UserMapperTest{
 
 //    @Autowired
 //    private UserMapper userMapper;
@@ -106,7 +108,5 @@ public class UserMapperTest extends AbstractPersistenceTest{
 
 
     }
-
-
 
 }

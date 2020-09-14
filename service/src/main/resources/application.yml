@@ -1,0 +1,29 @@
+userInfo:
+  name: dandanHuang
+  age: 18
+  female: true
+
+userInfo2: {name: fengshanLiang,age: 20,female: false}
+
+userInfos: [{name: fengshanLiang,age: 20,female: false},{name: fengshanLiang,age: 20,female: false}]
+
+city:
+  - beijing
+  - shanghai
+  - nanjing
+  - guangdong
+  - chongqing
+
+city2: [beijing,shanghai,nanjing,chongqing]
+
+student:
+  - name: zhangsan
+    age: 1
+    female: false
+  - name: lisi
+    age: 2
+    female: true
+  - name: wanger
+    age: 3
+    female: false
+

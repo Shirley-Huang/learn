@@ -2,7 +2,7 @@ package com.dandan.work.handler;
 
 import com.alibaba.fastjson.JSON;
 import com.dandan.common.utils.HttpClientUtils02;
-import com.dandan.work.consts.Parameters;
+import com.dandan.work.consts.JYRequestParameters;
 import com.dandan.work.handler.api.JYHandler;
 import com.dandan.work.handler.api.acceptance.AcceptanceItems;
 import com.dandan.work.handler.api.acceptance.OrderAcceptanceItemsResponse;
@@ -26,7 +26,7 @@ public class JYHandlerImpl implements JYHandler {
 
     @Override
     public void clearOrderCache(String orderId) throws Exception {
-        String requestUrl = Parameters.OPS_DOMAIN + Parameters.CLEAR_ORDER_CACHE_REQUEST_URL;
+        String requestUrl = JYRequestParameters.OPS_DOMAIN + JYRequestParameters.CLEAR_ORDER_CACHE_REQUEST_URL;
         String contentType = ContentType.APPLICATION_FORM_URLENCODED;
         String methodType = MethodType.POST;
 
@@ -40,7 +40,7 @@ public class JYHandlerImpl implements JYHandler {
 
     @Override
     public List<AcceptanceItems> getAcceptanceItems(String orderId) throws Exception {
-        String requestUrl = Parameters.OPS_DOMAIN + Parameters.GET_ACCEPTANCE_ITEMS_REQUEST_URL;
+        String requestUrl = JYRequestParameters.OPS_DOMAIN + JYRequestParameters.GET_ACCEPTANCE_ITEMS_REQUEST_URL;
         String contentType = ContentType.APPLICATION_JSON_UTF8;
         String methodType = MethodType.GET;
 
@@ -59,7 +59,7 @@ public class JYHandlerImpl implements JYHandler {
 
     @Override
     public void completeAcceptance(String orderId, List<AcceptanceItems> acceptanceItems) throws Exception{
-        String requestUrl = Parameters.OPS_DOMAIN + Parameters.COMPLETE_ACCEPTANCE_REQUEST_URL;
+        String requestUrl = JYRequestParameters.OPS_DOMAIN + JYRequestParameters.COMPLETE_ACCEPTANCE_REQUEST_URL;
         String contentType = ContentType.APPLICATION_JSON_UTF8;
         String methodType = MethodType.POST;
 
@@ -74,7 +74,7 @@ public class JYHandlerImpl implements JYHandler {
     @Override
     public void cancelOrder(CancelOrderBO req) throws Exception {
 
-        String requestUrl = Parameters.OPS_DOMAIN + Parameters.CANCEL_ORDER_REQUEST_URL;
+        String requestUrl = JYRequestParameters.OPS_DOMAIN + JYRequestParameters.CANCEL_ORDER_REQUEST_URL;
         String contentType = ContentType.APPLICATION_JSON_UTF8;
         String methodType = MethodType.POST;
         Map<String, Object> data = new HashMap<String, Object>();
@@ -90,7 +90,7 @@ public class JYHandlerImpl implements JYHandler {
 
     private String sendRequest(String requestUrl, String contentType, String methodType, Map<String, Object> data) throws Exception{
         Map<String, String> headers = new HashMap<String, String>();
-        headers.put("Cookie", Parameters.COOKIE);
+        headers.put("Cookie", JYRequestParameters.COOKIE);
         headers.put("Content-Type", contentType);
         headers.put("jiangyun-device", "BROWSER");
         return HttpClientUtils02.requestString(requestUrl, headers, data, methodType);
@@ -98,7 +98,7 @@ public class JYHandlerImpl implements JYHandler {
 
     @Override
     public Problem searchProblem(String problemId) throws Exception {
-        String requestUrl = Parameters.OPS_DOMAIN + Parameters.SEARCH_PROBLEM_INFO_REQUEST_URL;
+        String requestUrl = JYRequestParameters.OPS_DOMAIN + JYRequestParameters.SEARCH_PROBLEM_INFO_REQUEST_URL;
         String contentType = ContentType.APPLICATION_FORM_URLENCODED_UTF8;
         String methodType = MethodType.POST;
 
@@ -117,7 +117,7 @@ public class JYHandlerImpl implements JYHandler {
 
     @Override
     public void modifyProblem(ModifyProblemBO req) throws Exception {
-        String requestUrl = Parameters.OPS_DOMAIN + Parameters.MODIFY_PROBLEM_REQUEST_URL;
+        String requestUrl = JYRequestParameters.OPS_DOMAIN + JYRequestParameters.MODIFY_PROBLEM_REQUEST_URL;
         String contentType = ContentType.APPLICATION_JSON_UTF8;
         String methodType = MethodType.POST;
 
@@ -137,12 +137,19 @@ public class JYHandlerImpl implements JYHandler {
         data.put("complaintChannel", req.getComplaintChannel());
         data.put("notePictures", req.getNotePictures());
 
-
-
-
         String result = sendRequest(requestUrl,contentType, methodType, data);
         System.out.println(req.getId() + "——" + result);
 
+    }
+
+    @Override
+    public void initOrderLowIncomeStatist() throws Exception {
+        String requestUrl = JYRequestParameters.OPS_DOMAIN + JYRequestParameters.INIT_ORDER_LOW_INCOME_REQUEST_URL;
+        String contentType = ContentType.APPLICATION_JSON_UTF8;
+        String methodType = MethodType.GET;
+        Map<String, Object> data = new HashMap<String, Object>();
+        String result = sendRequest(requestUrl,contentType, methodType, data);
+        System.out.println(result);;
     }
 
 }

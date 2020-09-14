@@ -1,6 +1,5 @@
 package com.dandan.model.pojo.jiangyun.result;
 
-import com.dandan.model.pojo.jiangyun.Order;
 import com.dandan.model.pojo.jiangyun.OrderProperty;
 import com.dandan.model.pojo.jiangyun.OrderResponsibilityEmployeeContrail;
 import com.dandan.model.pojo.jiangyun.OrderStatusContrail;

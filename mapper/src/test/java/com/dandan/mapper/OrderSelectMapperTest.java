@@ -1,5 +1,7 @@
 package com.dandan.mapper;
 
+import com.dandan.common.model.pojo.TimeRange;
+import com.dandan.common.utils.DateTimeUtility;
 import com.dandan.common.utils.files.ExportFileUtils;
 import com.dandan.common.utils.files.rowModel.OrderArtisanIncomeAmountModel;
 import com.dandan.common.utils.files.rowModel.TakeOrderTimeModel;
@@ -7,12 +9,14 @@ import com.dandan.model.pojo.jiangyun.*;
 import com.dandan.model.pojo.jiangyun.filter.ArtisanIncomeFilter;
 import com.dandan.model.pojo.jiangyun.filter.TakeOrderTimeFilter;
 import com.dandan.model.pojo.jiangyun.result.OrderArtisanIncome;
+import com.dandan.model.pojo.jiangyun.result.OrderPartsInfo;
 import com.dandan.model.pojo.jiangyun.result.TakeOrderTime;
-import com.jiangyun.framework.model.filter.TimeRange;
-import com.jiangyun.framework.util.DateTimeUtility;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -22,7 +26,9 @@ import java.util.List;
 /**
  * Created by dandan On 十月 12 2019
  */
-public class OrderSelectMapperTest extends AbstractPersistenceTest {
+@RunWith(SpringRunner.class)
+@SpringBootTest
+public class OrderSelectMapperTest{
 
 
     @Autowired
@@ -73,6 +79,9 @@ public class OrderSelectMapperTest extends AbstractPersistenceTest {
         takeOrderTimeFilter.setOscCreateTime(new TimeRange(from, to));
 
         List<String> orderIds = orderSelectMapper.selectOrderIdsByFilter(takeOrderTimeFilter);
+        if(true){
+            throw new RuntimeException();
+        }
 //        List<String> orderIds = new ArrayList<>();
 //        orderIds.add("1393401");
 //        orderIds.add("1392980");
@@ -248,15 +257,15 @@ public class OrderSelectMapperTest extends AbstractPersistenceTest {
     @Test
     public void selectOrderArtisanIncomeInfo() throws Exception{
 
-        String fromStr = "2019-11-01";
-        String toStr = "2019-12-01";
+        String fromStr = "2020-03-01";
+        String toStr = "2020-04-01";
         Date from = DateTimeUtility.parseYYYYMMDD(fromStr);
         Date to = DateTimeUtility.parseYYYYMMDD(toStr);
         TimeRange timeRange = new TimeRange(from, to);
 
         ArtisanIncomeFilter filter = new ArtisanIncomeFilter();
         filter.setStatusId(1);
-        filter.setCategoryServingName("安装");
+//        filter.setCategoryServingName("安装");
         filter.setCompletedTime(timeRange);
 //        filter.setOrderId("1392572");
         List<OrderArtisanIncome> orderArtisanInfos = orderSelectMapper.selectOrderArtisanIncomeByFilter(filter);
@@ -271,7 +280,8 @@ public class OrderSelectMapperTest extends AbstractPersistenceTest {
                 if(order.getArtisanLeaderTypeCode().equals("SERVICE_PROVIDER_ARTISAN")){
                     artisanType = "服务商";
                 }else if(order.getArtisanLeaderTypeCode().equals("COMPANY_OWNED_ARTISAN")){
-                    artisanType = "直营";
+//                    artisanType = "直营";
+                    continue;
                 }
             }else if(order.getTeamOrder().getValue()){
                 artisanType = "合伙人";
@@ -282,6 +292,7 @@ public class OrderSelectMapperTest extends AbstractPersistenceTest {
             boolean earlyCompleteOrder = false;
             if(StringUtils.isNotBlank(order.getEmployeeNote()) && order.getEmployeeNote().contains("【系统】提前结束工单")){
                 earlyCompleteOrder = true;
+                continue;
             }
 
             List<OrderProduct> orderProducts = orderArtisanInfo.getOrderProducts();
@@ -292,6 +303,10 @@ public class OrderSelectMapperTest extends AbstractPersistenceTest {
                 categoryServingName = orderProduct.getCategoryServingName();
                 productNumber += orderProduct.getNumber();
                 productName = orderProduct.getName();
+            }
+
+            if(productNumber > 20){
+                continue;
             }
 
             List<OrderArtisanRewardPunishment> rewardPunishments = orderArtisanInfo.getRewardPunishments();
@@ -372,8 +387,31 @@ public class OrderSelectMapperTest extends AbstractPersistenceTest {
             datas.add(data);
         }
 //        String fileName = "/Users/dandan/Documents/import_files/九月份师傅收入详情.xlsx";
-        String fileName = "/Users/dandan/Documents/import_files/十一月份师傅收入详情.xlsx";
+        String fileName = "/Users/dandan/Documents/import_files/三月份师傅收入详情.xlsx";
         ExportFileUtils.writeExcel(datas,fileName, OrderArtisanIncomeAmountModel.class);
+    }
+
+    @Test
+    public void diffDataBaseSelect(){
+        List<OrderPartsInfo> result = orderSelectMapper.selectOrderArtisanLeaderInfo();
+        if(result != null && result.size() > 0){
+            for (OrderPartsInfo orderPartsInfo : result) {
+                System.out.println(orderPartsInfo);
+            }
+        }
+
+    }
+
+    @Test
+    public void selectArtisanSpecialInfo(){
+        //获取所有的星标师傅
+
+
+    }
+
+    @Test
+    public void insertOrUpdateForTrim(){
+        orderSelectMapper.insertOrUpdateDataForTrim();
     }
 
 }

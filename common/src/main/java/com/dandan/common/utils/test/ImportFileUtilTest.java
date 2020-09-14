@@ -1,7 +1,6 @@
 package com.dandan.common.utils.test;
 
 import com.dandan.common.utils.files.ImportFileUtils;
-import org.junit.Test;
 
 import java.util.List;
 
@@ -10,7 +9,6 @@ import java.util.List;
  */
 public class ImportFileUtilTest {
 
-    @Test
     public void readExcelTest(){
         List<List<String>> lists = ImportFileUtils.readExcel("/Users/dandan/Documents/数据库sql查询/大鱼米家工单同步状态/匠云昨天核销工单.xlsx");
 
@@ -23,7 +21,6 @@ public class ImportFileUtilTest {
 
     }
 
-    @Test
     public void readTextTest(){
         List<String> strings = ImportFileUtils.readText("/Users/dandan/1.txt");
         for (String string : strings) {

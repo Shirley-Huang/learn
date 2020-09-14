@@ -12,6 +12,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -25,7 +26,8 @@ import java.util.Map.Entry;
  */
 public class MyHttpClient4 {
 
-    public static void main(String[] args) throws Exception{
+    @Test
+    public void test() throws Exception{
 
         String result = doGet("https://cbs-admin.jiangyunshouhou.com/services/common/cd/resource/data/merchant/tag/types");
         System.out.println(result);

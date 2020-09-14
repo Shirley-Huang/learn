@@ -1,7 +1,5 @@
 package com.dandan.model.test;
 
-import org.junit.Test;
-
 /**
  * Created by dandan On 八月 28 2019
  */
@@ -17,7 +15,6 @@ public class ClassLoaderTest {
 
     }
 
-    @Test
     public void loadClass() throws ClassNotFoundException {
         ClassLoader classLoader = ClassLoaderTest.class.getClassLoader();
         //classLoader.loadClass("Test01");

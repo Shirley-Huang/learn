@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dandan.mapper.FinalUserMapper">
+
+    <insert id="insertUser" parameterType="map" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+        insert into t_user(
+        user_name,
+        password,
+        mobile,
+        age,
+        sex
+        )value (
+        #{userName, javaType=string, jdbcType=CHAR},
+        #{password, javaType=string, jdbcType=CHAR},
+        #{mobile, javaType=string, jdbcType=CHAR},
+        #{age, javaType=int, jdbcType=INTEGER},
+        #{sex.code, javaType=string, jdbcType=CHAR}
+        )
+    </insert>
+
+    <insert id="batchInsertUser" keyColumn="id" parameterType="map" useGeneratedKeys="true">
+        insert into t_user(
+        user_name,
+        password,
+        mobile,
+        age,
+        sex
+        )value
+        <foreach collection="users" item="user" separator=","  index="index">(
+            #{user.userName, javaType=string, jdbcType=CHAR},
+            #{user.password, javaType=string, jdbcType=CHAR},
+            #{user.mobile, javaType=string, jdbcType=CHAR},
+            #{user.age, javaType=int, jdbcType=INTEGER},
+            #{user.sex.code, javaType=string, jdbcType=CHAR}
+            )
+        </foreach>
+    </insert>
+
+</mapper>

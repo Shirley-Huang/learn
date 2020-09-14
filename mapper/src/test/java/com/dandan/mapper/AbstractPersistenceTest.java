@@ -1,16 +1,20 @@
 package com.dandan.mapper;
 
 import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * Created by dandan On 八月 25 2019
  */
-//@RunWith(JUnit4.class)  //指用JUnit4这个运行器来运行
-@RunWith(SpringJUnit4ClassRunner.class) //测试运行于Spring测试环境
-@ContextConfiguration(locations = "classpath:spring/spring-mybatis.xml")
-public abstract class AbstractPersistenceTest {
+@SpringBootApplication
+public  class AbstractPersistenceTest {
+
+    public static void main(String[] args) {
+        SpringApplication.run(AbstractPersistenceTest.class);
+    }
 
 }

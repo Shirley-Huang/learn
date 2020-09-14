@@ -1,0 +1,18 @@
+#spring集成mybatis环境
+#pojo别名扫描包
+#mybatis.type-aliases-package: {com.dandan.model.pojo, com.dandan.common}
+##加载mybatis映射文件
+mybatis:
+  mapper-locations: /mybatis/mapper/**.xml
+  config-location: /mybatis/mybatis-config.xml
+
+#spring:
+#  datasource:
+#    username: app
+#    password: T1std8123
+#    url: jdbc:mysql://60.205.183.149:3306/jiangyun_ops?allowMultiQueries=true&useUnicode=true&characterEncoding=utf-8
+#    driver-class-name: com.mysql.jdbc.Driver
+
+
+
+

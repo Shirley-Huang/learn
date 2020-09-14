@@ -1,6 +1,6 @@
 package com.dandan.model.pojo.jiangyun.filter;
 
-import com.jiangyun.framework.model.filter.TimeRange;
+import com.dandan.common.model.pojo.TimeRange;
 import lombok.Data;
 
 /**

@@ -10,6 +10,7 @@ import com.dandan.work.handler.api.problem.Problem;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
@@ -34,6 +35,9 @@ public class JYServiceCall {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+        if(orderIds != null){
+            System.out.println("共" + orderIds.size() +  "条数据");
         }
     }
 
@@ -74,7 +78,7 @@ public class JYServiceCall {
             jyHandlerImpl.completeAcceptance(orderId,acceptanceItems);
 
             //生成sql语句
-            String sql = "UPDATE `jiangyun_ops`.`t_order` SET `partner_order_number` = " + list.get(1) + " WHERE (`id` = " + orderId  + ");";
+            String sql = "UPDATE jiangyun_ops.t_order SET partner_order_number = '" + list.get(1) + "' WHERE (id = " + orderId  + ");";
             sqls.add(sql);
         }
 
@@ -89,20 +93,21 @@ public class JYServiceCall {
     @Test
     public void cancelOrder() throws Exception{
         //1、从指定路径的文件中读取工单id
-        List<String> orderIds = ImportFileUtils.readText("/Users/dandan/Documents/import_files/orderIds.txt");
+        //List<String> orderIds = ImportFileUtils.readText("/Users/dandan/Documents/import_files/orderIds.txt");
+        List<String> orderIds = Arrays.asList("1612546");
         for (String orderId : orderIds) {
             CancelOrderBO req = new CancelOrderBO();
             req.setOrderId(orderId);
             req.setOrderCancelDemander("MERCHANT");
             req.setCancelReasonTypeCode("CUSTOMER_NOT_INSTALL_TEMPORARILY");
             req.setCancelReasonDescription("客户暂不安装");
-            req.setIgnoreVerify(true);
-            req.setVerifyCode("0000");
-            jyHandlerImpl.cancelOrder(req);
-        }
+        req.setIgnoreVerify(true);
+        req.setVerifyCode("0000");
+        jyHandlerImpl.cancelOrder(req);
+    }
         System.out.println(orderIds.size());
 
-    }
+}
 
     /**
      * 取消工单
@@ -172,6 +177,14 @@ public class JYServiceCall {
         bo.setComplaintChannel(problem.getComplaintChannel());
         bo.setNotePictures(problem.getNotePictures());
         return bo;
+    }
+
+    /**
+     * 初始化历史工单师傅最低价
+     */
+    @Test
+    public void initOrderLowIncomeStatist() throws Exception{
+        jyHandlerImpl.initOrderLowIncomeStatist();
     }
 
 }

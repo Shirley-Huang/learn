@@ -1,0 +1,19 @@
+#server.port: 8484
+#server.servlet.context-path: diary
+
+server:
+  port: 8484
+  servlet:
+    context-path: /diary
+
+#DataSource
+#spring.datasource.driver-class-name: XXX
+#spring.datasource.password: XXX
+#spring.datasource.url: XXX
+#spring.datasource.username: XXX
+#spring:
+#  datasource:
+#    driver-class-name: XXX
+#    url: XXX
+#    username: XXX
+#    password: XXX

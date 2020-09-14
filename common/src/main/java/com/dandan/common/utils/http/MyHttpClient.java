@@ -7,6 +7,7 @@ import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
 import org.apache.commons.httpclient.params.HttpMethodParams;
+import org.junit.Test;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -19,7 +20,8 @@ import java.io.InputStreamReader;
  */
 public class MyHttpClient {
 
-    public static void main(String[] args) throws Exception{
+    @Test
+    public void test() throws Exception{
 
         String result = doGet("https://cbs-admin.jiangyunshouhou.com/services/common/cd/resource/data/merchant/tag/types");
         System.out.println(result);

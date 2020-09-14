@@ -144,5 +144,48 @@
             </if>
         </where>
     </select>
+    <resultMap id="orderPartsResult" type="OrderPartsInfo">
+        <id property="orderId" column="order_id"/>
+        <result property="artisanName" column="order_artisan_name"/>
+        <result property="artisanLeaderName" column="order_artisan_leader_name"/>
+    </resultMap>
+
+    <select id="selectOrderArtisanLeaderInfo" resultMap="orderPartsResult">
+        select o.id AS order_id,o.artisan_name AS order_artisan_name, a.name AS order_artisan_leader_name
+        from jiangyun_ops.t_order_history oh
+		INNER JOIN jiangyun_ops.t_order_status_contrail_history osc ON osc.order_history_id = oh.id
+		INNER JOIN jiangyun_ops.t_order_customer_history och on och.order_history_id = oh.id
+		INNER JOIN jiangyun_ops.t_order_product_history oph on oph.order_history_id = oh.id
+		INNER JOIN jiangyun_ops.t_order_product_serving_history opsh on opsh.order_product_history_id = oph.id
+        LEFT JOIN jiangyun_cbs.t_artisan a on a.id = oh.artisan_leader_id
+        left join jiangyun_ops.t_order_history_serial_number t2 on t2.order_history_id = oh.id
+        left join jiangyun_ops.t_order_spare_parts_history t3 on t3.order_history_id = oh.id
+        left join jiangyun_ops.t_order_logistics_trajectory_history t4 on t4.order_history_id = oh.id
+<!--        <where>-->
+<!--            <if test="filter.createTime != null">-->
+
+<!--            </if>-->
+<!--            <if test="filter.merchantId != null">-->
+
+<!--            </if>-->
+<!--        </where>-->
+    </select>
+
+    <insert id="insertOrUpdateDataForTrim">
+        insert into gaode_city(name,adcode,citycode)
+        values (
+        "北京市11","110000","010"
+        )
+        on duplicate key update
+        <trim suffixOverrides=",">
+            <if test="true">
+                adcode = '123123',
+            </if>
+            <if test="false">
+                name = '北京00'
+            </if>
+        </trim>
+
+    </insert>
 
 </mapper>

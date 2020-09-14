@@ -1,10 +1,9 @@
 package com.dandan.model.pojo.jiangyun;
 
-import com.jiangyun.framework.model.Bool;
+import com.dandan.common.model.pojo.Bool;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 /**
  * Created by dandan On 十月 12 2019

@@ -1,0 +1,100 @@
+package com.dandan.work.handler;
+
+import com.alibaba.fastjson.JSON;
+import com.dandan.common.utils.HttpClientUtils02;
+import com.dandan.common.utils.StringUtils;
+import com.dandan.work.consts.ContentType;
+import com.dandan.work.consts.MethodType;
+import com.dandan.work.consts.WXRequestParameters;
+import com.dandan.work.handler.api.WXHandler;
+import com.dandan.work.handler.api.WeiXinMessagePraiseAuditRequest;
+import com.dandan.work.handler.api.message.template.PraiseAwardMessageTemplate;
+import com.dandan.work.handler.api.message.template.WeixinTemplateMessageRO;
+import org.apache.commons.collections.BeanMap;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * @Description
+ * @Author dandan
+ * @Date 2019-12-10
+ */
+public class WXHandlerImpl implements WXHandler {
+
+    public static String env = "ONLINE";
+
+    private static String weixinClientId;
+    private static String weixinClientKey;
+
+    static {
+    }
+
+    @Override
+    public void pushWeixinPraiseAuditMessage(WeiXinMessagePraiseAuditRequest req) throws Exception {
+
+        String praiseAwardTemplateId_online = "fbpEtGv4JyurAxK0fJarVUesw0VkTimXkiRWbGweu4Q";
+        String praiseAwardTemplateId_test01 = "ef9wlv8c5BkH6d3wTkoiYUG3nNshboDpKXvd_FQobgM";
+        String praiseAwardTemplateId = praiseAwardTemplateId_online;
+
+        String weixinId_online = "gh_b95cf4453e22";
+        String weixinId_test01 = "gh_95aba09007c8";
+        String weixinId = weixinId_online;
+
+
+        String openId = req.getOpenId();
+        String orderSummary = "上门安装";
+        String customerPraiseAwardAmount = "5";
+        String auditStatus = "上传在原购买渠道（如京东、淘宝等）上的五星好评截图可获得" + customerPraiseAwardAmount + "元红包";
+        String url = WXRequestParameters.OPS_CUSTOMER_SERVER_URL + "/workOrder/award.html?orderId=" + req.getOrderId() + "&WXCode=" + weixinId;
+        PraiseAwardMessageTemplate template = new PraiseAwardMessageTemplate(praiseAwardTemplateId, openId, orderSummary, auditStatus, url);
+        pushWeixinTemplateMessage(template.toMessage());
+    }
+
+    private void pushWeixinTemplateMessage(WeixinTemplateMessageRO templateMessage) throws Exception {
+        String url = WXRequestParameters.SEND_TEMPLATE_MESSAGE_REQUEST_URL;
+//        String accessToken = getWeiXinAccessToken();
+        String accessToken = "35_aShE0rraa6B73yhLTMCGnLyTVZBqmQGZADouRVzuqWpPVDL1KBzfP-FbtmJ1-tdjk4Qe1tqs4YAAYg7TGyiK-XiPrN8Ic0qOF4K7uMGLngZubfQCt8RupxvQPvmHqPsswI3VYXHMiyCRmInJUQMdAHACYU";
+        if(StringUtils.isEmpty(accessToken)){
+            return;
+        }
+        url = url.replace("ACCESS_TOKEN", accessToken);
+        String paramStr = JSON.toJSONString(templateMessage);
+//        System.out.println(paramStr);
+        Map params = JSON.parseObject(paramStr, Map.class);
+        String result = sendRequest(url, MethodType.POST, params);
+        System.out.println(result);
+    }
+
+    private String sendRequest(String requestUrl, String methodType, Map<String, Object> data) throws Exception{
+        Map<String, String> headers = new HashMap<String, String>();
+        headers.put("Content-Type", ContentType.APPLICATION_JSON_UTF8);
+        return HttpClientUtils02.requestString(requestUrl, headers, data, methodType);
+    }
+
+    public String getWeiXinAccessToken() throws Exception{
+        String weixinClientId_online = "wxa9ac9ffaf4610bcd";
+        String weixinClientId_test01 = "wxcf92bd997aff0570";
+        String weixinClientId = weixinClientId_test01;
+
+
+        String weixinClientKey_online = "13959fc51cf4c33939cf09cf1aa886ff";
+        String weixinClientKey_test01 = "8fa0bf211b5ddee43a5a2b26353a6ba1";
+        String weixinClientKey = weixinClientKey_test01;
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("grant_type", "client_credential");
+        params.put("appid", weixinClientId);
+
+        params.put("secret", weixinClientKey);
+
+        String url = WXRequestParameters.GET_ACCESS_TOEKN_REQUEST_URL;
+        String result = sendRequest(url, MethodType.POST, params);
+        System.out.println(result);
+        HashMap<String, Object> values = JSON.parseObject(result,HashMap.class);
+        if(values.containsKey("errcode")){
+            return null;
+        }
+        return values.get("access_token").toString();
+    }
+
+}

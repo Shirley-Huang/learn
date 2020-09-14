@@ -1,6 +1,6 @@
 package com.dandan.model.test;
 
-import com.dandan.common.utils.TimeRange;
+import com.dandan.common.model.pojo.TimeRange;
 
 import java.text.ParseException;
 

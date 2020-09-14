@@ -43,4 +43,9 @@ public interface JYHandler {
 
     void modifyProblem(ModifyProblemBO req) throws Exception;
 
+    /**
+     * 初始化历史工单师傅最低价
+     */
+    void initOrderLowIncomeStatist() throws Exception;
+
 }

@@ -5,7 +5,7 @@
 <mapper namespace="com.dandan.mapper.UserMapper">
 
     <!-- 开启本mapper的namespace下的二级缓存 -->
-    <cache/>
+<!--    <cache/>-->
 
     <sql id="orderingProperties">
 
@@ -151,9 +151,26 @@
         )
     </insert>
 
+    <insert id="batchInsertUser" keyColumn="id" parameterType="map" useGeneratedKeys="true">
+        insert into t_user(
+            user_name,
+            password,
+            mobile,
+            age,
+            sex
+        )value
+        <foreach collection="users" item="user" separator="," open="(" close=")" index="index">
+            #{user.userName, javaType=string, jdbcType=CHAR},
+            #{user.password, javaType=string, jdbcType=CHAR},
+            #{user.mobile, javaType=string, jdbcType=CHAR},
+            #{user.age, javaType=int, jdbcType=INTEGER},
+            #{user.sex.code, javaType=string, jdbcType=CHAR}
+        </foreach>
+    </insert>
+
     <delete id="deleteUserById">
         delete from t_user
-        where id = #{id, javaType=int, jdbcType=INTEGER}
+        where id = #{userId, javaType=int, jdbcType=INTEGER}
     </delete>
 
     <update id="updateUserById" parameterType="map">

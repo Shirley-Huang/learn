@@ -1,5 +1,7 @@
 package com.dandan.common.utils.http;
 
+import org.junit.Test;
+
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -12,7 +14,8 @@ import java.net.URL;
 public class MyHttpURLConnection {
 
 
-    public static void main(String[] args) {
+    @Test
+    public void test() {
 
 
         String get = doGet("https://cbs-admin.jiangyunshouhou.com/services/common/cd/resource/data/merchant/tag/types");

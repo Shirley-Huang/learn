@@ -4,7 +4,6 @@ import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import org.junit.Test;
 
 import java.util.concurrent.TimeUnit;
 
@@ -19,7 +18,6 @@ public class MyOkHttpClient {
     private OkHttpClient client = new OkHttpClient();
 
     //GET request
-    @Test
     public void sendRequest(){
         String url = "https://cbs-admin.jiangyunkeji.com/services/common/cd/resource/data/merchant/tag/types";
 

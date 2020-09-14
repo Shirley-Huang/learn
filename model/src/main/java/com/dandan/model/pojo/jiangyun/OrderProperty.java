@@ -1,6 +1,6 @@
 package com.dandan.model.pojo.jiangyun;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
+import com.dandan.common.model.pojo.Bool;
 import lombok.Data;
 
 import java.io.Serializable;

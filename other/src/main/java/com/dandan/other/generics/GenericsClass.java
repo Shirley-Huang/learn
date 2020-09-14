@@ -2,6 +2,8 @@ package com.dandan.other.generics;
 
 
 import com.dandan.other.model.C;
+import lombok.Data;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,10 +17,7 @@ import java.util.Map;
  */
 public class GenericsClass<T> {
 
-
-
-
-   private T key;
+    private T key;
 
     public T getKey() {
         return key;
@@ -28,39 +27,51 @@ public class GenericsClass<T> {
         this.key = key;
     }
 
-    public void test(String[] args) {
-        Pet cat = new Cat();
-        Dog dog = new Dog();
-        List<? super Pet> petHouse = new ArrayList<>();
-        petHouse.add(cat);
-        List<? extends Pet> petHouse2 = new ArrayList<>();
-        List<Pet> petHouse3 = new ArrayList<>();
-        petHouse3.add(cat);
+    @Test
+    public void test() {
+        Cat cat = new Cat();
+        cat.setNote("this si problem");
+        String note = "this is test";
+        if(note != null){
+
+            cat.setNote(note + ";" + cat.getNote() == null ? "" : cat.getNote());
+        }
+        System.out.println(cat.getNote());
+//       Cat cat = new Cat();
+//       cat.setName("lfs");
+//       cat.setMobile("13472201613");
+//       test01(cat);
+//
+//       List<Cat> cats = new ArrayList<>();
+//       cats.add(cat);
+//       test02(cats);
     }
 
-    public void test01(String a){
+    private void test02(List<Cat> cats) {
 
     }
 
-    public void test01(Integer i){
-
+    public void test01(Object value) {
+        if(value instanceof Cat){
+            Cat cat = (Cat) value;
+            System.out.println(cat.getName() + "=" + cat.getMobile());
+        }
     }
 
-    @Override
-    public String toString() {
-        return super.toString();
-    }
 
-    //    public String test01(String a){     error 仅返回值不同非重载方法
-//    }
+
 
 }
-class Pet{
+@Data
+class Cat{
+    private String name;
+    private String mobile;
+    private String note;
 
 }
-class Cat extends Pet{
-
-}
-class Dog extends Pet{
+@Data
+class Dog{
+    private String name;
+    private String mobile;
 
 }

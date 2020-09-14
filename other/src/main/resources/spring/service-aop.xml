@@ -35,9 +35,23 @@
 
 
     <bean id="myService" class="com.dandan.other.spring.aop.service.MyServiceImpl"/>
-
-
     <bean id="restServiceAspect" class="com.dandan.other.spring.aop.aspect.RestServiceAspect"/>
+
+
+    <bean name="promotion1" class="com.dandan.other.design.strategy.strategy.impl.PromotionCalculationImpl01"/>
+    <bean name="promotion2" class="com.dandan.other.design.strategy.strategy.impl.PromotionCalculationImpl02"/>
+    <bean name="promotion3" class="com.dandan.other.design.strategy.strategy.impl.PromotionCalculationImpl03"/>
+
+    <bean id="promotionCalculationService" class="com.dandan.other.design.strategy.strategy.test.PromotionCalculationService">
+        <property name="promotionCalculations">
+            <map>
+                <entry key="promotion1" value-ref="promotion1"/>
+                <entry key="promotion2" value-ref="promotion2"/>
+                <entry key="promotion3" value-ref="promotion3"/>
+            </map>
+        </property>
+    </bean>
+
 
 
 </beans>

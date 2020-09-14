@@ -343,7 +343,7 @@ public class HttpClientUtils02 {
             }
         } catch (Exception e) {
             //LOG.error(String.format("[HttpClientsUtils Get] get response error, url:%s", uri), e);
-            System.out.println(String.format("[HttpClientsUtils Get] get response error, url:%s", uri) +  e);
+//            System.out.println(String.format("[HttpClientsUtils Get] get response error, url:%s", uri) +  e);
             return responseString;
         } finally {
             closeResponseEntity(httpResponse);
@@ -517,7 +517,7 @@ public class HttpClientUtils02 {
                             value = obj.toString();
                         }
                         params.add(new BasicNameValuePair(entry.getKey(), value));
-//                        System.out.println(entry.getKey() + " --" + value);
+                        System.out.println(entry.getKey() + " --" + value);
                     }
                     httpPost.setEntity(new UrlEncodedFormEntity(params, Consts.UTF_8));
                 }
