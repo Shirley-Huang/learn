@@ -31,6 +31,8 @@ public class Order {
     private BigDecimal artisanPraiseAwardAmount;
     private BigDecimal artisanRecommendAwardAmount;
 
+    private String customerProvinceName;
+
 
 
 

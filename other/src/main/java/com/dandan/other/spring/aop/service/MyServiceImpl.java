@@ -14,6 +14,7 @@ public class MyServiceImpl implements MyService {
 //        }catch (Exception e){
 //            throw e;
 //        }
+        System.out.println("创建工单");
         return  createByName + "创建工单:" + orderId;
     }
 

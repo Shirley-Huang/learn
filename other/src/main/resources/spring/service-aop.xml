@@ -11,26 +11,28 @@
     http://www.springframework.org/schema/tx
     http://www.springframework.org/schema/tx/spring-tx.xsd">
 
+    <aop:aspectj-autoproxy/>
+
     <bean id="myServiceAspect" class="com.dandan.other.spring.aop.aspect.MyServiceAspect"/>
 
 
-    <aop:config>
-        <aop:aspect ref="myServiceAspect">
+<!--    <aop:config>-->
+<!--        <aop:aspect ref="myServiceAspect">-->
             <!-- 带参数切点-->
 <!--            <aop:pointcut  id="pointcut1" expression="execution(* com.dandan.other.spring.aop.service.MyService.createOrder(..))and args(orderId,createByName)"/>-->
             <!-- 不带参数切点 -->
-            <aop:pointcut id="pointcut1" expression="execution(* com.dandan.other.spring.aop.service.MyService.createOrder(..))"/>
+<!--            <aop:pointcut id="pointcut1" expression="execution(* com.dandan.other.spring.aop.service.MyService.createOrder(..))"/>-->
 
 <!--            <aop:before method="beforeHandler" pointcut-ref="pointcut1" />-->
 <!--            <aop:after method="afterHandler" pointcut-ref="pointcut1"/>-->
 <!--            <aop:after-returning method="returnHandler" pointcut-ref="pointcut1" returning="name"/>-->
 <!--            <aop:after-throwing method="throwExceptionHandler" pointcut-ref="pointcut1" throwing="ex"/>-->
 
-            <aop:around method="doAround" pointcut-ref="pointcut1"/>
+<!--            <aop:around method="doAround" pointcut-ref="pointcut1"/>-->
 
 
-        </aop:aspect>
-    </aop:config>
+<!--        </aop:aspect>-->
+<!--    </aop:config>-->
 
 
 

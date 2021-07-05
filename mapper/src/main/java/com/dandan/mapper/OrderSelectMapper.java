@@ -2,12 +2,9 @@ package com.dandan.mapper;
 
 import com.dandan.model.pojo.jiangyun.filter.ArtisanIncomeFilter;
 import com.dandan.model.pojo.jiangyun.filter.TakeOrderTimeFilter;
-import com.dandan.model.pojo.jiangyun.result.OrderArtisanIncome;
-import com.dandan.model.pojo.jiangyun.result.OrderPartsInfo;
-import com.dandan.model.pojo.jiangyun.result.TakeOrderTime;
+import com.dandan.model.pojo.jiangyun.result.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -41,5 +38,18 @@ public interface OrderSelectMapper {
     List<OrderPartsInfo> selectOrderArtisanLeaderInfo();
 
     void insertOrUpdateDataForTrim();
+
+    /**
+     * 根据第三方单号查找SN
+     */
+    YunDingOrderInfo selectYunDingOrderInfoByPartnerOrderNumber(@Param("partnerOrderNumber")String partnerOrderNumber);
+
+    OrderInfo selectOrderInfoByChannelOrderNumber(@Param("channelOrderNumber") String channelOrderNumber);
+
+    String selectProvinceId(String provinceName);
+
+    String selectCityId(@Param("cityName") String cityName, @Param("provinceId") String provinceId);
+
+    String selectDistrictId( @Param("districtName")String districtName, @Param("cityId") String cityId);
 
 }

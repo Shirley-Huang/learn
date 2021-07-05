@@ -12,5 +12,6 @@ public class WeiXinMessagePraiseAuditRequest {
 
     private String openId;
     private String orderId;
+    private String price;
 
 }

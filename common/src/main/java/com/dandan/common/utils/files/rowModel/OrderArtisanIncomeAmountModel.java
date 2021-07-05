@@ -64,5 +64,7 @@ public class OrderArtisanIncomeAmountModel extends BaseRowModel {
     private String merchantName;
     @ExcelProperty(value = "商品信息")
     private String productName;
+    @ExcelProperty(value = "省名")
+    private String provinceName;
 
 }

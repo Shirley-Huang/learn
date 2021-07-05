@@ -93,18 +93,19 @@ public class JYServiceCall {
     @Test
     public void cancelOrder() throws Exception{
         //1、从指定路径的文件中读取工单id
-        //List<String> orderIds = ImportFileUtils.readText("/Users/dandan/Documents/import_files/orderIds.txt");
-        List<String> orderIds = Arrays.asList("1612546");
+//        List<String> orderIds = ImportFileUtils.readText("/Users/dandan/Documents/import_files/orderIds.txt");
+        List<String> orderIds = Arrays.asList("1680348");
         for (String orderId : orderIds) {
             CancelOrderBO req = new CancelOrderBO();
             req.setOrderId(orderId);
             req.setOrderCancelDemander("MERCHANT");
             req.setCancelReasonTypeCode("CUSTOMER_NOT_INSTALL_TEMPORARILY");
-            req.setCancelReasonDescription("客户暂不安装");
-        req.setIgnoreVerify(true);
-        req.setVerifyCode("0000");
-        jyHandlerImpl.cancelOrder(req);
-    }
+            req.setCancelReasonDescription("客户地址错误，商户要求取消");
+    //        req.setCancelReasonDescription("客户暂不安装");
+    //        req.setIgnoreVerify(true);
+    //        req.setVerifyCode("0000");
+            jyHandlerImpl.cancelOrder(req);
+        }
         System.out.println(orderIds.size());
 
 }

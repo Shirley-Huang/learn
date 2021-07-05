@@ -3,12 +3,15 @@ package com.dandan.mapper;
 import com.dandan.common.model.pojo.TimeRange;
 import com.dandan.common.utils.DateTimeUtility;
 import com.dandan.common.utils.files.ExportFileUtils;
+import com.dandan.common.utils.files.ImportFileUtils;
 import com.dandan.common.utils.files.rowModel.OrderArtisanIncomeAmountModel;
 import com.dandan.common.utils.files.rowModel.TakeOrderTimeModel;
 import com.dandan.model.pojo.jiangyun.*;
+import com.dandan.model.pojo.jiangyun.enums.OrderStatus;
 import com.dandan.model.pojo.jiangyun.filter.ArtisanIncomeFilter;
 import com.dandan.model.pojo.jiangyun.filter.TakeOrderTimeFilter;
 import com.dandan.model.pojo.jiangyun.result.OrderArtisanIncome;
+import com.dandan.model.pojo.jiangyun.result.OrderInfo;
 import com.dandan.model.pojo.jiangyun.result.OrderPartsInfo;
 import com.dandan.model.pojo.jiangyun.result.TakeOrderTime;
 import org.apache.commons.lang.StringUtils;
@@ -257,8 +260,10 @@ public class OrderSelectMapperTest{
     @Test
     public void selectOrderArtisanIncomeInfo() throws Exception{
 
-        String fromStr = "2020-03-01";
-        String toStr = "2020-04-01";
+        String fromStr = "2021-01-01";
+        String toStr = "2021-01-29";
+        //        String fileName = "/Users/dandan/Documents/import_files/九月份师傅收入详情.xlsx";
+        String fileName = "/Users/dandan/Documents/export_files/一月份师傅收入详情.xlsx";
         Date from = DateTimeUtility.parseYYYYMMDD(fromStr);
         Date to = DateTimeUtility.parseYYYYMMDD(toStr);
         TimeRange timeRange = new TimeRange(from, to);
@@ -383,11 +388,11 @@ public class OrderSelectMapperTest{
             data.add(a11.toString());
             data.add(order.getMerchantName());
             data.add(productName);
+            data.add(order.getCustomerProvinceName());
 
             datas.add(data);
         }
-//        String fileName = "/Users/dandan/Documents/import_files/九月份师傅收入详情.xlsx";
-        String fileName = "/Users/dandan/Documents/import_files/三月份师傅收入详情.xlsx";
+
         ExportFileUtils.writeExcel(datas,fileName, OrderArtisanIncomeAmountModel.class);
     }
 
@@ -402,11 +407,65 @@ public class OrderSelectMapperTest{
 
     }
 
+    /**
+     * 根据渠道订单号获取匠云工单
+     */
     @Test
-    public void selectArtisanSpecialInfo(){
-        //获取所有的星标师傅
+    public void selectOrderInfoByChannelOrderNumber(){
+        String fileName = "/Users/dandan/Documents/import_files/channelOrderNumber.xlsx";
+        List<List<String>> results = ImportFileUtils.readExcel(fileName);
+        for (List<String> result : results) {
+            String channelOrderNumber = result.get(0).trim().replace("\t","");
+            OrderInfo orderInfo = orderSelectMapper.selectOrderInfoByChannelOrderNumber(channelOrderNumber);
+            System.out.println(channelOrderNumber);
+            if(orderInfo == null){
+                result.add("历史中");
+                continue;
+            }
+            String statusName = OrderStatus.fromId(orderInfo.getStatusId()).getDescription();
+            result.add( statusName);
+            result.add( orderInfo.getOrderId());
+        }
+
+        ExportFileUtils.writeExcel(results,fileName);
+
+    }
+
+    /**
+     * 根据省市区名称获取省市区id
+     */
+    @Test
+    public void selectProvinceCityDistrictId(){
+        String fileName = "/Users/dandan/Documents/import_files/targetPrice4.xlsx";
+        List<List<String>> results = ImportFileUtils.readExcel(fileName);
+        int i = 1;
+        for (List<String> result : results) {
+            if(i== 1){
+                i=2;
+                continue;
+            }
+            String provinceName = result.get(0).replace(" ","");
+            String cityName = result.get(1).replace(" ","");
+            String districtName = result.get(2).replace(" ","");
+
+            String provinceId = orderSelectMapper.selectProvinceId(provinceName);
+            String cityId = orderSelectMapper.selectCityId(cityName, provinceId);
+            String districtId = orderSelectMapper.selectDistrictId(districtName,cityId);
+            result.add(4, districtId);
+//            result.add(5, cityId);
+//            result.add(6, districtId);
+        }
+
+        ExportFileUtils.writeExcel(results,fileName);
+
+    }
+
+    @Test
+    public void selectProblem(){
 
 
+
+        
     }
 
     @Test

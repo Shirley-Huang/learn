@@ -1,0 +1,19 @@
+INSERT INTO `jiangyun_ops`.`t_sales_configuration`(`id`, `brand_code`, `brand_name`, `location_code`, `location_name`, `configuration_type`, `limit_number`) VALUES (1, 'YUNDING', '云丁', 'ORDER_LIST_TOP', '工单列表顶部', 'PICTURE', 1);
+INSERT INTO `jiangyun_ops`.`t_sales_configuration`(`id`, `brand_code`, `brand_name`, `location_code`, `location_name`, `configuration_type`, `limit_number`) VALUES (2, 'YUNDING', '云丁', 'ORDER_LIST_BOTTOM', '工单列表底部', 'PICTURE', 2);
+INSERT INTO `jiangyun_ops`.`t_sales_configuration`(`id`, `brand_code`, `brand_name`, `location_code`, `location_name`, `configuration_type`, `limit_number`) VALUES (3, 'YUNDING', '云丁', 'ORDER_LIST_FLOATING_WINDOW', '工单列表页悬浮窗', 'PICTURE', 3);
+INSERT INTO `jiangyun_ops`.`t_sales_configuration`(`id`, `brand_code`, `brand_name`, `location_code`, `location_name`, `configuration_type`, `limit_number`) VALUES (4, 'YUNDING', '云丁', 'ORDER_INFO_TOP', '工单详情页顶部', 'PICTURE', 1);
+INSERT INTO `jiangyun_ops`.`t_sales_configuration`(`id`, `brand_code`, `brand_name`, `location_code`, `location_name`, `configuration_type`, `limit_number`) VALUES (5, 'YUNDING', '云丁', 'ORDER_INFO_BOTTOM', '工单详情页底部', 'PICTURE', 2);
+INSERT INTO `jiangyun_ops`.`t_sales_configuration`(`id`, `brand_code`, `brand_name`, `location_code`, `location_name`, `configuration_type`, `limit_number`) VALUES (6, 'YUNDING', '云丁', 'ORDER_INFO_FLOATING_WINDOW', '工单详情页悬浮窗', 'PICTURE', 3);
+INSERT INTO `jiangyun_ops`.`t_sales_configuration`(`id`, `brand_code`, `brand_name`, `location_code`, `location_name`, `configuration_type`, `limit_number`) VALUES (7, 'YUNDING', '云丁', 'ORDER_ACCEPTANCE_SUCCEED_TOP', '工单验收成功页顶部', 'PICTURE', 1);
+INSERT INTO `jiangyun_ops`.`t_sales_configuration`(`id`, `brand_code`, `brand_name`, `location_code`, `location_name`, `configuration_type`, `limit_number`) VALUES (8, 'YUNDING', '云丁', 'ORDER_ACCEPTANCE_SUCCEED_BOTTOM', '工单验收成功页底部', 'PICTURE', 2);
+INSERT INTO `jiangyun_ops`.`t_sales_configuration`(`id`, `brand_code`, `brand_name`, `location_code`, `location_name`, `configuration_type`, `limit_number`) VALUES (9, 'YUNDING', '云丁', 'COMMENT_ORDER_TOP', '评价工单顶部', 'PICTURE', 1);
+INSERT INTO `jiangyun_ops`.`t_sales_configuration`(`id`, `brand_code`, `brand_name`, `location_code`, `location_name`, `configuration_type`, `limit_number`) VALUES (10, 'YUNDING', '云丁', 'COMMENT_ORDER_BOTTOM', '评价工单底部', 'PICTURE', 2);
+INSERT INTO `jiangyun_ops`.`t_sales_configuration`(`id`, `brand_code`, `brand_name`, `location_code`, `location_name`, `configuration_type`, `limit_number`) VALUES (11, 'YUNDING', '云丁', 'COMMENT_ORDER_SUCCEED', '评价成功页', 'PICTURE', 1);
+INSERT INTO `jiangyun_ops`.`t_sales_configuration`(`id`, `brand_code`, `brand_name`, `location_code`, `location_name`, `configuration_type`, `limit_number`) VALUES (12, 'YUNDING', '云丁', 'BUY_EXTENDED_WARRANTY_FLOATING_WINDOW', '购买延保页悬浮窗', 'PICTURE', 1);
+INSERT INTO `jiangyun_ops`.`t_sales_configuration`(`id`, `brand_code`, `brand_name`, `location_code`, `location_name`, `configuration_type`, `limit_number`) VALUES (13, 'YUNDING', '云丁', 'BUY_EXTENDED_WARRANTY_SUCCEED_TOP', '延保购买成功页顶部', 'PICTURE', 1);
+INSERT INTO `jiangyun_ops`.`t_sales_configuration`(`id`, `brand_code`, `brand_name`, `location_code`, `location_name`, `configuration_type`, `limit_number`) VALUES (14, 'YUNDING', '云丁', 'BUY_EXTENDED_WARRANTY_SUCCEED_BOTTOM', '延保购买成功页底部', 'PICTURE', 1);
+INSERT INTO `jiangyun_ops`.`t_sales_configuration`(`id`, `brand_code`, `brand_name`, `location_code`, `location_name`, `configuration_type`, `limit_number`) VALUES (15, 'YUNDING', '云丁', 'CONFIRM_APPLY_TIME_SUCCEED', '确认修改时间页顶部', 'PICTURE', 3);
+INSERT INTO `jiangyun_ops`.`t_sales_configuration`(`id`, `brand_code`, `brand_name`, `location_code`, `location_name`, `configuration_type`, `limit_number`) VALUES (16, 'YUNDING', '云丁', 'CONFIRM_DOOR_ADDRESS_SUCCEED', '确认修改地址页顶部', 'PICTURE', 3);
+
+
+

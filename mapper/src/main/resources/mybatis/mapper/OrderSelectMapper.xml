@@ -124,6 +124,7 @@
             <include refid="orderArtisanRewardPunishmentColumn"/>,
             <include refid="orderExtraChargeItemApplyColumn"/>
         FROM t_order_history o
+        INNER JOIN t_order_customer_history oc on oc.order_history_id = o.id
         INNER JOIN t_order_product_history op on o.id = op.order_history_id
         INNER JOIN t_order_product_serving_history ops on ops.order_product_history_id = op.id
         LEFT JOIN t_order_artisan_reward_punishment_history oarp on oarp.order_history_id = o.id
@@ -187,5 +188,68 @@
         </trim>
 
     </insert>
+
+    <resultMap id="yunDingOrderInfoResult" type="YunDingOrderInfo">
+        <id column="id" property="orderId"/>
+        <result column="partner_order_number" property="partnerOrderNumber"/>
+        <result column="status_id" property="statusId"/>
+        <result column="current_order" property="currentOrder"/>
+        <result column="employee_note" property="employeeNote"/>
+
+        <collection property="serialNumbers" ofType="OrderSerialNumber" resultMap="orderSerialNumberResult"/>
+    </resultMap>
+
+    <resultMap id="orderSerialNumberResult" type="OrderSerialNumber">
+        <result property="serialNumber" column="serial_number"/>
+        <result property="serialNumberType" column="serial_number_type"/>
+    </resultMap>
+
+    <select id="selectYunDingOrderInfoByPartnerOrderNumber" resultMap="yunDingOrderInfoResult">
+        select
+            t1.id,
+            t1.partner_order_number,
+            'Y' current_order,
+            t1.employee_note,
+            status_id,
+            t2.serial_number,
+            t2.serial_number_type
+        from jiangyun_ops.t_order t1
+        left join jiangyun_ops.t_order_serial_number t2 on t2.order_id = t1.id
+        where t1.partner_order_number = #{partnerOrderNumber,jdbcType=VARCHAR}
+        union
+        select
+            t1.id,
+            t1.partner_order_number,
+            'N' current_order,
+            t1.employee_note,
+            status_id,
+            t2.serial_number,
+            t2.serial_number_type
+        from jiangyun_ops.t_order_history t1
+        left join jiangyun_ops.t_order_history_serial_number t2 on t2.order_history_id = t1.id
+        where t1.partner_order_number = #{partnerOrderNumber,jdbcType=VARCHAR}  and t1.status_id = 1
+        limit 1
+    </select>
+
+    <select id="selectOrderInfoByChannelOrderNumber" resultType="OrderInfo">
+        select id AS orderId,status_id AS statusId
+        from jiangyun_ops.t_order
+        where channel_order_number = #{channelOrderNumber,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectProvinceId" parameterType="string" resultType="string">
+        select id from jiangyun_cbs.t_province
+        where name = #{provinceName,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectCityId" parameterType="string" resultType="string">
+        select id from jiangyun_cbs.t_city
+        where name = #{cityName,jdbcType=VARCHAR} and province_id = #{provinceId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectDistrictId" parameterType="string" resultType="string">
+        select id from jiangyun_cbs.t_district
+        where name = #{districtName,jdbcType=VARCHAR} and city_id = #{cityId,jdbcType=VARCHAR}
+    </select>
 
 </mapper>

@@ -22,6 +22,7 @@
         <result property="artisanDistancePaymentAmount" column="order_artisan_distance_payment_amount"/>
         <result property="artisanPraiseAwardAmount" column="order_artisan_praise_award_amount"/>
         <result property="artisanRecommendAwardAmount" column="order_artisan_recommend_award_amount"/>
+        <result property="customerProvinceName" column="order_customer_province_name"/>
     </resultMap>
 
     <sql id="orderCloumn">
@@ -41,7 +42,8 @@
         o.artisan_service_amount AS order_artisan_service_amount,
         o.artisan_distance_payment_amount AS order_artisan_distance_payment_amount,
         o.artisan_praise_award_amount AS order_artisan_praise_award_amount,
-        o.artisan_recommend_award_amount AS order_artisan_recommend_award_amount
+        o.artisan_recommend_award_amount AS order_artisan_recommend_award_amount,
+        oc.province_name AS order_customer_province_name
     </sql>
 
     <sql id="orderExtraChargeItemApplyColumn">

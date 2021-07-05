@@ -3,6 +3,10 @@ package com.dandan.other.spring.aop.aspect;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
+import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 
 /**
@@ -10,6 +14,7 @@ import org.aspectj.lang.reflect.MethodSignature;
  * @Author dandan
  * @Date 2019-10-16
  */
+@Aspect
 public class MyServiceAspect {
 
     public void beforeHandler(){
@@ -86,6 +91,17 @@ public class MyServiceAspect {
 
         }
         return null;
+    }
+
+    public static int i = 1;
+
+    @Pointcut("execution (* com.dandan.other.spring.aop.service.MyServiceImpl.createOrder(..))")
+    private void createOrderPointcut(){}
+
+    @After(value = "createOrderPointcut()")
+    public void staticCreateOrderCount(){
+        System.out.println("发布工单数：" + i);
+        i++;
     }
 
 }

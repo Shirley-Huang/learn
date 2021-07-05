@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dandan.mapper.ArtisanSelectMapper">
+
+
+    <select id="getArtisanIdByMobile" resultType="java.lang.String">
+        select id from jiangyun_cbs.t_artisan
+        where reverse(mobile) = #{mobile,jdbcType=VARCHAR}
+    </select>
+
+    <select id="getMonthlyBillByArtisanIdAndMonth" resultType="java.lang.String">
+        select id from jiangyun_cbs.t_artisan_monthly_bill
+        where artisan_leader_id = #{artisanId,jdbcType=VARCHAR}
+        and name = #{month,jdbcType=VARCHAR}
+    </select>
+
+    <update id="modifyMonthlyBillById">
+        update jiangyun_cbs.t_artisan_monthly_bill
+        set receivable_balance = #{amount,jdbcType=DECIMAL},
+        total_balance = #{amount,jdbcType=DECIMAL}
+        where id = #{billId,jdbcType=VARCHAR}
+
+    </update>
+    <delete id="deleteMonthlyReward">
+        delete from
+        jiangyun_cbs.t_artisan_monthly_bill_reward
+        where monthly_bill_id = #{billId,jdbcType=VARCHAR}
+    </delete>
+    <select id="getMonthlyReward" resultType="java.lang.String">
+        select id
+        from jiangyun_cbs.t_artisan_monthly_bill_reward
+        where monthly_bill_id = #{billId,jdbcType=VARCHAR}
+    </select>
+    <select id="selectProvinces" resultType="com.dandan.model.pojo.address.Province">
+        select * from jiangyun_cbs.t_province
+    </select>
+</mapper>

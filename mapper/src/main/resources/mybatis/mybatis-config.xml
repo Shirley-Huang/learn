@@ -39,6 +39,9 @@
         <typeAlias type="com.dandan.model.pojo.jiangyun.OrderArtisanRewardPunishment" alias="OrderArtisanRewardPunishment"/>
 
         <typeAlias type="com.dandan.model.pojo.jiangyun.result.OrderPartsInfo" alias="OrderPartsInfo"/>
+        <typeAlias type="com.dandan.model.pojo.jiangyun.result.YunDingOrderInfo" alias="YunDingOrderInfo"/>
+        <typeAlias type="com.dandan.model.pojo.jiangyun.OrderSerialNumber" alias="OrderSerialNumber"/>
+        <typeAlias type="com.dandan.model.pojo.jiangyun.result.OrderInfo" alias="OrderInfo"/>
 
 
     </typeAliases>

@@ -18,6 +18,20 @@ import java.util.List;
  */
 public class ExportFileUtils {
 
+    public static void writeExcel(List<List<String>> data, String filePath){
+        OutputStream out = null;
+        try{
+            out = new FileOutputStream(filePath);
+            ExcelWriter writer = EasyExcelFactory.getWriter(out);
+            Sheet sheet = new Sheet(1,0);
+            sheet.setAutoWidth(true);
+            writer.write0(data,sheet);
+            writer.finish();
+        }catch (Exception e){
+
+        }
+    }
+
     public static void writeExcel(List<List<String>> data, String filePath, Class<? extends BaseRowModel> clazz ) {
 
         OutputStream out = null;

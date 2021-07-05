@@ -12,4 +12,6 @@ public interface WXHandler {
      */
     public void pushWeixinPraiseAuditMessage(WeiXinMessagePraiseAuditRequest req) throws Exception ;
 
+    void sendMassMessage(MassSendMessageRequest request) throws Exception;
+
 }
