@@ -40,7 +40,7 @@
         <httpClient4.version>4.5.6</httpClient4.version>
         <httpcore.version>4.4.4</httpcore.version>
         <httpclient.version>4.5.2</httpclient.version>
-        <fastjson.version>1.2.32</fastjson.version>
+        <fastjson.version>1.2.83</fastjson.version>
 
         <javax.servlet.version>2.5</javax.servlet.version>
         <javax.servlet.jsp.version>2.1</javax.servlet.jsp.version>
